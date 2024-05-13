@@ -2,6 +2,7 @@ package primitives;
 
 /**
  * The Point class represents a point in three-dimensional space.
+ * @author Lior &amp; Asaf
  */
 public class Point {
     protected Double3 xyz;
