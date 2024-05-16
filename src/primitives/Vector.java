@@ -32,13 +32,12 @@ public class Vector extends Point {
 
 	@Override
 	public boolean equals(Object obj) {
-		return false;
-		// super();
+		return super.equals(obj);
 	}
 
 	@Override
 	public String toString() {
-		return null;
+		return super.toString();
 	}
 
 	/**
