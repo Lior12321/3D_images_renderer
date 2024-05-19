@@ -2,6 +2,6 @@ package geometries;
 
 import primitives.Point;
 
-public class Triangle extends Polygon {
+public class Triangle extends geometries {
 
 }
