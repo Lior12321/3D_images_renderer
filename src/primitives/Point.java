@@ -22,7 +22,7 @@ public class Point {
      * @param z The z-coordinate of the point.
      */
     public Point(double x, double y, double z) {
-        super();
+          this.xyz=new Double3(x,y,z);
     }
 
     /**
