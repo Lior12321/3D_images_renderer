@@ -1,5 +1,12 @@
 package primitives;
 
+/**
+ * The Vector class represents a vector in 3D space, defined by its coordinates.
+ * It extends the Point class and adds vector-specific operations such as vector
+ * addition, scaling, dot product, cross product, and normalization.
+ * 
+ * @author Lior &amp; Asaf
+ */
 public class Vector extends Point {
 
 	/**
@@ -111,7 +118,9 @@ public class Vector extends Point {
 
 	/**
 	 * Returns a new vector that is the normalized form of this vector.
-	 * @return A new vector that has the same direction as this vector but with a length of 1.
+	 * 
+	 * @return A new vector that has the same direction as this vector but with a
+	 *         length of 1.
 	 */
 	public Vector normalize() {
 		double size = this.lengthSquared();

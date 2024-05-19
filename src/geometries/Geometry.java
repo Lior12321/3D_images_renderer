@@ -17,7 +17,7 @@ public interface Geometry {
      * @param p one or zero points on the geometry where the normal is to be calculated
      * @return the normal vector at the specified points
      */
-	public abstract Vector getNormal();
-	public abstract Vector getNormal(Point p);
+	//public abstract Vector getNormal();
+	//public abstract Vector getNormal(Point p);
 	public abstract Vector getNormal(Point... p);
 }
