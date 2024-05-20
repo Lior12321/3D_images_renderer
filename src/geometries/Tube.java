@@ -11,12 +11,16 @@ import primitives.Ray;
  * @author Lior &amp; Asaf
  */
 public class Tube extends RadialGeometry {
-	protected Ray axis;
+	/**
+	 * The central axis of the tube.
+	 * This axis is represented as a Ray, defining the direction and position of the tube in 3D space.
+	 */
+	protected final Ray axis;
 
 	/**
 	 * Constructs a Tube with the specified axis and radius.
 	 *
-	 * @param ray    the central axis of the tube.
+	 * @param ray  	 the central axis of the tube.
 	 * @param radius the radius of the tube.
 	 * @throws IllegalArgumentException if the radius is not a positive number.
 	 */
