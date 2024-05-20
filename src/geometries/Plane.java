@@ -53,4 +53,9 @@ public class Plane implements Geometry {
 		return normal.normalize();
 	}
 
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
+
 }

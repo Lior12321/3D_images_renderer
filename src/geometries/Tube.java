@@ -34,4 +34,9 @@ public class Tube extends RadialGeometry {
 	public Vector getNormal(Point... p) {
 		return null; // will return NULL for now
 	}
+
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
 }

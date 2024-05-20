@@ -17,7 +17,7 @@ public class Vector extends Point {
 	 * @param z The z-coordinate of the vector.
 	 * @throws IllegalArgumentException if the input vector is a zero vector.
 	 */
-	public Vector(Double x, double y, double z) {
+	public Vector(double x, double y, double z) {
 		super(x, y, z);
 		Double3 newD = new Double3(x, y, z);
 		if (newD.equals(Double3.ZERO))
@@ -95,10 +95,8 @@ public class Vector extends Point {
 	 * @param vec The vector to calculate the dot product with.
 	 * @return A new vector which is the result of the dot product operation.
 	 */
-	public Vector dotProduct(Vector vec) {
-		Double3 newD = new Double3(xyz.d1 * vec.xyz.d1, xyz.d2 * vec.xyz.d2, xyz.d3 * vec.xyz.d3);
-		Vector newV = new Vector(newD);
-		return newV;
+	public double dotProduct(Vector vec) {
+		return (double)(xyz.d1 * vec.xyz.d1 + xyz.d2 * vec.xyz.d2 + xyz.d3 * vec.xyz.d3);
 	}
 
 	/**
@@ -112,8 +110,7 @@ public class Vector extends Point {
 		x = xyz.d2 * vec.xyz.d3 - xyz.d3 * vec.xyz.d2;
 		y = xyz.d3 * vec.xyz.d1 - xyz.d1 * vec.xyz.d3;
 		z = xyz.d1 * vec.xyz.d2 - xyz.d2 * vec.xyz.d1;
-		Vector newVec = new Vector(x, y, z);
-		return newVec;
+		return new Vector(x, y, z);
 	}
 
 	/**
@@ -123,8 +120,7 @@ public class Vector extends Point {
 	 *         length of 1.
 	 */
 	public Vector normalize() {
-		double size = this.lengthSquared();
-		Vector newVec = new Vector(xyz.d1 / size, xyz.d2 / size, xyz.d3 / size);
-		return newVec;
+		double size = this.length();
+		return new Vector(xyz.d1 / size, xyz.d2 / size, xyz.d3 / size);
 	}
 }

@@ -28,4 +28,9 @@ public class Sphere extends RadialGeometry {
 	public Vector getNormal(Point... p) {
 		return null;
 	}
+
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
 }

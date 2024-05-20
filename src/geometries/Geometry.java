@@ -20,4 +20,6 @@ public interface Geometry {
 	//public abstract Vector getNormal();
 	//public abstract Vector getNormal(Point p);
 	public abstract Vector getNormal(Point... p);
+
+	Vector getNormal(Point point);
 }
