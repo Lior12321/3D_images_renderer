@@ -35,11 +35,20 @@ public class Vector extends Point {
 			throw new IllegalArgumentException("You enterd a zero vector!");
 	}
 
+	/**
+	 * check if two vectors are equal
+	 * @param obj the vector we check if it's equal to the vector which called the function
+	 * @return true/false determined by the equality of the two vectors
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
 	}
 
+	/**
+	 * giving a string which represents the vector
+	 * @return a string which represents the vector
+	 */
 	@Override
 	public String toString() {
 		return "vec" + super.toString();
