@@ -116,8 +116,7 @@ public class Vector extends Point {
 	/**
 	 * Returns a new vector that is the normalized form of this vector.
 	 * 
-	 * @return A new vector that has the same direction as this vector but with a
-	 *         length of 1.
+	 * @return A new vector that has the same direction as this vector but with a length of 1.
 	 */
 	public Vector normalize() {
 		double size = this.length();
