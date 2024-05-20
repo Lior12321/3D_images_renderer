@@ -2,6 +2,7 @@
  * 
  */
 package unittests;
+
 /**
  * Unit test for primitives.Point class
  * 
@@ -10,6 +11,7 @@ package unittests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
 //============ Equivalence Partitions Tests ==============
 //=============== Boundary Values Tests ==================
 /**
@@ -22,7 +24,7 @@ class PointTests {
 	 */
 	@Test
 	void testAdd() {
-		
+
 	}
 
 	/**

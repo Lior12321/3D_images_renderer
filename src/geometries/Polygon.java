@@ -85,11 +85,4 @@ public class Polygon implements Geometry {
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
 	}
-
-	@Override
-	public Vector getNormal(Point... p) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -1,5 +1,7 @@
 package geometries;
 
+import static primitives.Util.*;
+
 /**
  * The RadialGeometry class represents a radial geometric shape characterized by
  * a radius. It is an abstract class that serves as a base for all radial
@@ -18,7 +20,7 @@ public abstract class RadialGeometry implements Geometry {
 	 * @throws IllegalArgumentException if the radius is not a positive number.
 	 */
 	public RadialGeometry(double radius) {
-		if (radius <= 0)
+		if (alignZero(radius) <= 0)
 			throw new IllegalArgumentException("The radius must be positive number!");
 		this.radius = radius;
 	}

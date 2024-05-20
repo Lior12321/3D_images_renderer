@@ -2,6 +2,7 @@
  * 
  */
 package unittests;
+
 /**
  * Unit test for geometries.Plane class
  * 
@@ -17,7 +18,8 @@ import org.junit.jupiter.api.Test;
 class PlaneTests {
 
 	/**
-	 * Test method for {@link geometries.Plane#Plane(primitives.Point, primitives.Point, primitives.Point)}.
+	 * Test method for
+	 * {@link geometries.Plane#Plane(primitives.Point, primitives.Point, primitives.Point)}.
 	 */
 	@Test
 	void testPlanePointPointPoint() {

@@ -19,10 +19,8 @@ public class Vector extends Point {
 	 */
 	public Vector(double x, double y, double z) {
 		super(x, y, z);
-		Double3 newD = new Double3(x, y, z);
-		if (newD.equals(Double3.ZERO))
+		if (xyz.equals(Double3.ZERO))
 			throw new IllegalArgumentException("You enterd a zero vector!");
-
 	}
 
 	/**
@@ -44,7 +42,7 @@ public class Vector extends Point {
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return "vec" + super.toString();
 	}
 
 	/**
@@ -96,7 +94,7 @@ public class Vector extends Point {
 	 * @return A new vector which is the result of the dot product operation.
 	 */
 	public double dotProduct(Vector vec) {
-		return (double)(xyz.d1 * vec.xyz.d1 + xyz.d2 * vec.xyz.d2 + xyz.d3 * vec.xyz.d3);
+		return (xyz.d1 * vec.xyz.d1 + xyz.d2 * vec.xyz.d2 + xyz.d3 * vec.xyz.d3);
 	}
 
 	/**
@@ -106,17 +104,17 @@ public class Vector extends Point {
 	 * @return A new vector which is the result of the cross product operation.
 	 */
 	public Vector crossProduct(Vector vec) {
-		double x, y, z;
-		x = xyz.d2 * vec.xyz.d3 - xyz.d3 * vec.xyz.d2;
-		y = xyz.d3 * vec.xyz.d1 - xyz.d1 * vec.xyz.d3;
-		z = xyz.d1 * vec.xyz.d2 - xyz.d2 * vec.xyz.d1;
+		double x = xyz.d2 * vec.xyz.d3 - xyz.d3 * vec.xyz.d2;
+		double y = xyz.d3 * vec.xyz.d1 - xyz.d1 * vec.xyz.d3;
+		double z = xyz.d1 * vec.xyz.d2 - xyz.d2 * vec.xyz.d1;
 		return new Vector(x, y, z);
 	}
 
 	/**
 	 * Returns a new vector that is the normalized form of this vector.
 	 * 
-	 * @return A new vector that has the same direction as this vector but with a length of 1.
+	 * @return A new vector that has the same direction as this vector but with a
+	 *         length of 1.
 	 */
 	public Vector normalize() {
 		double size = this.length();

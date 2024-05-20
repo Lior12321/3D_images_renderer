@@ -5,7 +5,8 @@ import primitives.Vector;
 
 /**
  * The Sphere class represents a sphere in 3D space, defined by a center point
- * and a radius. It extends the RadialGeometry class, inheriting the radius property.
+ * and a radius. It extends the RadialGeometry class, inheriting the radius
+ * property.
  * 
  * @author Lior &amp; Asaf
  */
@@ -23,12 +24,7 @@ public class Sphere extends RadialGeometry {
 		super(_radius);
 		this.center = _center;
 	}
-
-	@Override
-	public Vector getNormal(Point... p) {
-		return null;
-	}
-
+	
 	@Override
 	public Vector getNormal(Point point) {
 		return null;

@@ -2,6 +2,7 @@
  * 
  */
 package unittests;
+
 /**
  * Unit test for primitives.Vector class
  * 

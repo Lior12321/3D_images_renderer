@@ -24,7 +24,7 @@ public class Plane implements Geometry {
 	 */
 	Plane(Point p1, Point p2, Point p3) {
 		base = p1;
-		normal = null; // In the next step we will normalize it. For now, it's NULL
+		normal = null; // TODO In the next step we will normalize it. For now, it's NULL
 	}
 
 	/**
@@ -32,30 +32,20 @@ public class Plane implements Geometry {
 	 * is normalized.
 	 *
 	 * @param normal the normal vector to the plane
-	 * @param p1 the base point on the plane
+	 * @param p1     the base point on the plane
 	 */
 	Plane(Vector normal, Point p1) {
 		this.normal = normal.normalize();
 		base = p1;
 	}
 
-	/*
-	 * @Override public Vector getNormal() { return normal.normalize(); }
-	 * 
-	 * @Override public Vector getNormal(Point p) { return normal.normalize(); }
-	 */
-
-	@Override
-	public Vector getNormal(Point... p) {
-		if (p.length >= 1) {
-			return null; // we don't understand what should we do when we get a point
-		}
-		return normal.normalize();
+	public Vector getNormal() {
+		return normal;
 	}
 
 	@Override
 	public Vector getNormal(Point point) {
-		return null;
+		return normal;
 	}
 
 }
