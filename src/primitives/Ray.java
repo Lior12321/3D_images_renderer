@@ -1,13 +1,33 @@
 package primitives;
 
+/**
+ * Represents a ray in 3D space.
+ * A ray is defined by a starting point (head) and a direction vector.
+ * 
+ * @author Lior &amp; Asaf
+ */
 public class Ray {
-	private Point head;
-	private Vector direction;
+    
+    /**
+     * The starting point of the ray.
+     */
+    private final Point head;
 
-	public Ray(Point head, Vector direction) {
-		this.head = head;
-		this.direction = direction;
-	}
+    /**
+     * The direction vector of the ray.
+     */
+    private final Vector direction;
+
+    /**
+     * Constructs a new Ray with the specified head and direction.
+     *
+     * @param head 		the starting point of the ray
+     * @param direction the direction vector of the ray
+     */
+    public Ray(Point head, Vector direction) {
+        this.head = head;
+        this.direction = direction;
+    }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -19,7 +39,5 @@ public class Ray {
 	@Override
 	public String toString() {
 		return head + "->" + direction;
-		// return "starting point " + head.toString() + " with the direction of" +
-		// direction.toString();
 	}
 }
