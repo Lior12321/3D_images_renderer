@@ -11,7 +11,7 @@ import primitives.Ray;
  * @author Lior &amp; Asaf
  */
 public class Tube extends RadialGeometry {
-	protected Ray axis;
+	protected Ray axis; // the ray axis of the Tube
 
 	/**
 	 * Constructs a Tube with the specified axis and radius.
@@ -25,6 +25,11 @@ public class Tube extends RadialGeometry {
 		this.axis = ray;
 	}
 
+	/**
+	 * get the normal of a specific point of the Tube
+	 * @param point the point we want it's normal
+	 * @return the normal of the point
+	 */
 	@Override
 	public Vector getNormal(Point point) {
 		return null;
