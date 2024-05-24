@@ -11,7 +11,10 @@ import primitives.Vector;
  * @author Lior &amp; Asaf
  */
 public class Sphere extends RadialGeometry {
-	private static Point center; // the central point of the sphere
+	/**
+	 * The center point of sphere
+	 */
+	private final Point center;
 
 	/**
 	 * Constructs a Sphere with the specified center point and radius.
@@ -24,12 +27,7 @@ public class Sphere extends RadialGeometry {
 		super(radius);
 		this.center = center;
 	}
-
-	/**
-	 * get the normal of a specific point of the sphere
-	 * @param point the point we want it's normal
-	 * @return the normal of the point
-	 */
+	
 	@Override
 	public Vector getNormal(Point point) {
 		return null;

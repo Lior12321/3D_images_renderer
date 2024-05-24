@@ -15,7 +15,7 @@ public interface Geometry {
 	/**
 	 * Returns the normal vector to the geometry at the specified point.
 	 * 
-	 * @param p a point on the geometry where the normal is to be calculated
+	 * @param point a point on the geometry where the normal is to be calculated
 	 * @return the normal vector at the specified point
 	 */
 	Vector getNormal(Point point);

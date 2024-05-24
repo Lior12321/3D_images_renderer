@@ -6,8 +6,16 @@ package primitives;
  * @author Lior &amp; Asaf
  */
 public class Point {
-	protected Double3 xyz;
-	public static final Point ZERO = new Point(0, 0, 0);
+	/**
+     * The coordinates of the point in 3D space.
+     * This is represented by a Double3 object, which contains the x, y, z coordinates.
+     */
+    protected final Double3 xyz;
+
+    /**
+     * A constant representing the origin point (0, 0, 0) in 3D space.
+     */
+    public static final Point ZERO = new Point(0, 0, 0);
 
 	/**
 	 * Constructs a new Point with the specified coordinates.

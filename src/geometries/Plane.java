@@ -10,8 +10,15 @@ import primitives.Vector;
  * @author Lior &amp; Asaf
  */
 public class Plane implements Geometry {
-	private Point base; // the base point of the plane
-	private Vector normal; // the narmal vector of the plane
+	/**
+	 * The base point of the plane.
+	 */
+	private final Point base;
+
+	/**
+	 * The normal vector to the plane.
+	 */	
+	private final Vector normal;
 
 	/**
 	 * Constructs a Plane given three points. The first point is used as the base
@@ -40,18 +47,15 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * get the normal of the plane
-	 * @return the normal
+	 * Returns the normal vector of the plane.
+	 *
+	 * @return the normal vector, which is perpendicular to the surface or plane defined by the entity.
 	 */
+	
 	public Vector getNormal() {
 		return normal;
 	}
 
-	/**
-	 * get the normal of a specific point of the plane (which is the same for all points of the plane)
-	 * @param point the point we want it's normal
-	 * @return the normal
-	 */
 	@Override
 	public Vector getNormal(Point point) {
 		return normal;

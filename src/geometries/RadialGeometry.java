@@ -10,7 +10,10 @@ import static primitives.Util.*;
  * @author Lior &amp; Asaf
  */
 public abstract class RadialGeometry implements Geometry {
-	private final double radius; // the radius of the radial shape
+	/**
+	 * The radius of the radial shape
+	 */
+	private final double radius;
 
 	/**
 	 * Constructs a RadialGeometry with the specified radius.
