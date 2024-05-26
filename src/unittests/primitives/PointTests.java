@@ -1,7 +1,9 @@
 package unittests.primitives;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
+
 import primitives.Point;
 import primitives.Vector;
 
@@ -10,13 +12,18 @@ import primitives.Vector;
  * 
  * @author Lior &amp; Asaf
  */
-class PointTests {
+public class PointTests {
+	/**
+	 * Delta value for accuracy when comparing the numbers of type 'double' in
+	 * assertEquals
+	 */
+	private final double DELTA = 0.000001;
 
 	/**
 	 * Test method for {@link primitives.Point#add(primitives.Vector)}.
 	 */
 	@Test
-	void testAdd() {
+	public void testAdd() {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Add two positive points
 		Point p1 = new Point(1, 2, 3);
@@ -33,7 +40,7 @@ class PointTests {
 	 * Test method for {@link primitives.Point#subtract(primitives.Point)}.
 	 */
 	@Test
-	void testSubtract() {
+	public void testSubtract() {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Subtract two positive points
 		Point p1 = new Point(1, 2, 3);
@@ -56,34 +63,32 @@ class PointTests {
 	 * Test method for {@link primitives.Point#distanceSquared(primitives.Point)}.
 	 */
 	@Test
-	void testDistanceSquared() {
+	public void testDistanceSquared() {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Test that the distance between two points is right
-		// (ignore from difference that <= 0.00001)
 		Point p1 = new Point(1, 2, 3);
 		Point p2 = new Point(2, 4, 6);
-		assertEquals(p1.distanceSquared(p2), 14, 0.00001, "distanceSquared() wrong result");
+		assertEquals(14, p1.distanceSquared(p2), DELTA, "distanceSquared() wrong result");
 
 		// =============== Boundary Values Tests ==================
 		// TC11: distance Squared from the point to itself
-		assertEquals(p1.distanceSquared(p1), 0, "distanceSquared() does not work for distance from point to itself");
+		assertEquals(0, p1.distanceSquared(p1), "distanceSquared() does not work for distance from point to itself");
 	}
 
 	/**
 	 * Test method for {@link primitives.Point#distance(primitives.Point)}.
 	 */
 	@Test
-	void testDistance() {
+	public void testDistance() {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Test that the new point is the right one
-		// (ignore from difference that <= 0.00001)
 		Point p1 = new Point(1, 2, 3);
 		Point p2 = new Point(1, 5, 7);
-		assertEquals(p1.distance(p2), 5, 0.00001, "distanceSquared() wrong result");
+		assertEquals(5, p1.distance(p2), DELTA, "distanceSquared() wrong result");
 
 		// =============== Boundary Values Tests ==================
 		// TC11: Tests that distanceSquared works for the distance of a point from
 		// itself
-		assertEquals(p1.distanceSquared(p1), "distanceSquared() does not work for distance from point to itself");
+		assertEquals(0, p1.distanceSquared(p1), "distanceSquared() does not work for distance from point to itself");
 	}
 }

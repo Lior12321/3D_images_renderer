@@ -37,16 +37,21 @@ public class Vector extends Point {
 
 	/**
 	 * check if two vectors are equal
-	 * @param obj the vector we check if it's equal to the vector which called the function
+	 * 
+	 * @param obj the vector we check if it's equal to the vector which called the
+	 *            function
 	 * @return true/false determined by the equality of the two vectors
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		return super.equals(obj);
+		if (this == obj)
+			return true;
+		return (obj instanceof Vector other) && this.xyz.equals(other.xyz);
 	}
 
 	/**
 	 * giving a string which represents the vector
+	 * 
 	 * @return a string which represents the vector
 	 */
 	@Override
@@ -111,10 +116,10 @@ public class Vector extends Point {
 	 * @return A new vector which is the result of the cross product operation.
 	 */
 	public Vector crossProduct(Vector vec) {
-		double x = xyz.d2 * vec.xyz.d3 - xyz.d3 * vec.xyz.d2;
-		double y = xyz.d3 * vec.xyz.d1 - xyz.d1 * vec.xyz.d3;
-		double z = xyz.d1 * vec.xyz.d2 - xyz.d2 * vec.xyz.d1;
-		return new Vector(x, y, z);
+		return new Vector(//
+				xyz.d2 * vec.xyz.d3 - xyz.d3 * vec.xyz.d2, //
+				xyz.d3 * vec.xyz.d1 - xyz.d1 * vec.xyz.d3, //
+				xyz.d1 * vec.xyz.d2 - xyz.d2 * vec.xyz.d1);
 	}
 
 	/**

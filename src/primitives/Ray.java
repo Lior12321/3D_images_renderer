@@ -16,7 +16,7 @@ public class Ray {
     /**
      * The direction vector of the ray.
      */
-    private final Vector direction;
+    protected final Vector direction;
 
     /**
      * Constructs a new Ray with the specified head and direction.
@@ -26,7 +26,7 @@ public class Ray {
      */
     public Ray(Point head, Vector direction) {
         this.head = head;
-        this.direction = direction;
+        this.direction = direction.normalize();
     }
 
 	@Override

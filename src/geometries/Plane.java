@@ -31,7 +31,7 @@ public class Plane implements Geometry {
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		base = p1;
-		normal = null; // TODO In the next step we will normalize it. For now, it's NULL
+        normal = ((p2.subtract(p1)).crossProduct(p3.subtract(p1))).normalize();
 	}
 
 	/**

@@ -11,7 +11,7 @@ public class Cylinder extends Tube {
 	 * The height represents the distance between the two bases of the cylinder
 	 * along the central axis.
 	 */
-	private final double height;
+	protected final double height;
 
 	/**
 	 * Constructs a new Cylinder with the specified axis, radius, and height.
@@ -32,5 +32,10 @@ public class Cylinder extends Tube {
 	 */
 	public double getHeight() {
 		return height;
+	}
+	
+	@Override
+	public Vector getNormal(Point p) {
+		return null;
 	}
 }
