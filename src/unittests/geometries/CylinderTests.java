@@ -1,7 +1,4 @@
-/**
- * 
- */
-package unittests;
+package unittests.geometries;
 
 /**
  * Unit test for geometries.Cylinder class
