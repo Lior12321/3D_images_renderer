@@ -1,6 +1,6 @@
 package unittests;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Lior &amp; Asaf
  */
-
-class TriangleTests {
+class RayTests {
 
 	@Test
 	void test() {

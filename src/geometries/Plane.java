@@ -29,7 +29,7 @@ public class Plane implements Geometry {
 	 * @param p2 the second point on the plane
 	 * @param p3 the third point on the plane
 	 */
-	Plane(Point p1, Point p2, Point p3) {
+	public Plane(Point p1, Point p2, Point p3) {
 		base = p1;
 		normal = null; // TODO In the next step we will normalize it. For now, it's NULL
 	}

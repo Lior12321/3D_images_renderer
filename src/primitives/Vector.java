@@ -80,8 +80,7 @@ public class Vector extends Point {
 	 *         vector.
 	 */
 	public Vector add(Vector vec) {
-		Vector newVec = new Vector(xyz.d1 + vec.xyz.d1, xyz.d2 + vec.xyz.d2, xyz.d3 + vec.xyz.d3);
-		return newVec;
+		return new Vector(xyz.d1 + vec.xyz.d1, xyz.d2 + vec.xyz.d2, xyz.d3 + vec.xyz.d3);
 	}
 
 	/**
@@ -92,8 +91,7 @@ public class Vector extends Point {
 	 *         factor.
 	 */
 	public Vector scale(double num) {
-		Vector newVec = new Vector(xyz.d1 * num, xyz.d2 * num, xyz.d3 * num);
-		return newVec;
+		return new Vector(xyz.d1 * num, xyz.d2 * num, xyz.d3 * num);
 	}
 
 	/**

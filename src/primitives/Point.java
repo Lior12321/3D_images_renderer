@@ -82,13 +82,7 @@ public class Point {
 	 *         this point.
 	 */
 	public Vector subtract(Point P) {
-		double x, y, z;
-		x = xyz.d1 - P.xyz.d1;
-		y = xyz.d2 - P.xyz.d2;
-		z = xyz.d3 - P.xyz.d3;
-		Double3 newV = new Double3(x, y, z);
-		primitives.Vector vec = new primitives.Vector(newV);
-		return vec;
+		return new Vector(xyz.d1 - P.xyz.d1, xyz.d2 - P.xyz.d2, xyz.d3 - P.xyz.d3);
 	}
 
 	/**
