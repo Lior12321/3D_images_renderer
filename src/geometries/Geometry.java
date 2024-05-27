@@ -13,10 +13,10 @@ import primitives.Vector;
 public interface Geometry {
 
 	/**
-	 * Returns the normal vector to the geometry at the specified point.
+	 * Returns the normal vector to the geometry shape at the specified point.
 	 * 
-	 * @param point a point on the geometry where the normal is to be calculated
-	 * @return the normal vector at the specified point
+	 * @param 	point a point on the geometry where the normal is to be calculated
+	 * @return 	the normal vector at the specified point
 	 */
 	Vector getNormal(Point p);
 }

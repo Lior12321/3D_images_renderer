@@ -34,8 +34,8 @@ public class Cylinder extends Tube {
 		return height;
 	}
 	
-	@Override
-	public Vector getNormal(Point p) {
-		return null;
-	}
+	//@Override
+	//public Vector getNormal(Point p) {
+	//	return null;
+	//	}
 }

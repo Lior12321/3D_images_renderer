@@ -13,7 +13,6 @@ import primitives.Vector;
  * 
  * @author Lior &amp; Asaf
  */
-
 public class SphereTests {
 	/**
 	 * Test method for {@link geometries.Sphere#getNormal(primitives.Point)}.
@@ -22,8 +21,8 @@ public class SphereTests {
 	public void testGetNormal() {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Test that the normal is the correct one
-		Sphere s1 = new Sphere(new Point(0,0,0), 2);
-		assertEquals(new Vector(1, 0, 0), s1.getNormal(new Point(2,0,0)), //
+		Sphere s1 = new Sphere(new Point(0, 0, 0), 2);
+		assertEquals(new Vector(1, 0, 0), s1.getNormal(new Point(2, 0, 0)), //
 				"ERROR: getNormal() for Sphere wrong result");
 	}
 }

@@ -1,15 +1,14 @@
 package unittests.geometries;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 public class TriangleTests {
 
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
+	/**
+	 * Test method for {@link geometries.Triangle#getNormal(primitives.Point)}.
+	 */
 	@Test
 	public void testGetNormal() {
 		// ============ Equivalence Partitions Tests ==============

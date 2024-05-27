@@ -30,7 +30,20 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public Vector getNormal(Point point) {
-		return null;
+	public Vector getNormal(Point p) {
+		// Project the point onto the axis
+		Point p0 = axis.getHead();
+		Vector centerVec = axis.getDir();
+
+		// Calculate the projection of the point onto the axis
+		double projection = p.subtract(p0).dotProduct(centerVec);
+		if (projection == 0)
+			throw new IllegalArgumentException("projection cannot be zero");
+
+		// Find the closest point on the centerVec to the given point
+		Point centerP = p0.add(centerVec.scale(projection));
+
+		// Calculate the normal vector
+		return p.subtract(centerP).normalize();
 	}
 }

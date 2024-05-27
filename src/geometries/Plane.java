@@ -17,7 +17,7 @@ public class Plane implements Geometry {
 
 	/**
 	 * The normal vector to the plane.
-	 */	
+	 */
 	private final Vector normal;
 
 	/**
@@ -31,7 +31,7 @@ public class Plane implements Geometry {
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		base = p1;
-        normal = ((p2.subtract(p1)).crossProduct(p3.subtract(p1))).normalize();
+		normal = ((p2.subtract(p1)).crossProduct(p3.subtract(p1))).normalize();
 	}
 
 	/**
@@ -49,9 +49,9 @@ public class Plane implements Geometry {
 	/**
 	 * Returns the normal vector of the plane.
 	 *
-	 * @return the normal vector, which is perpendicular to the surface or plane defined by the entity.
+	 * @return the normal vector, which is perpendicular to the surface or plane
+	 *         defined by the entity.
 	 */
-	
 	public Vector getNormal() {
 		return normal;
 	}

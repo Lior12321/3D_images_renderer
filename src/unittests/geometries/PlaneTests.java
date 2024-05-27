@@ -29,12 +29,12 @@ public class PlaneTests {
 		// ============ Boundary Values Tests ==================
 		// TC11: Test two points are the same
 		assertThrows(IllegalArgumentException.class, //
-				() -> new Plane(new Point(1, 2, 3), new Point(1, 2, 3), new Point(1, 2, 4)),
-				"ERROR: does not throw exception for two points are the same");
+				() -> new Plane(new Point(1, 2, 3), new Point(1, 2, 3), new Point(1, 2, 4)), //
+				"ERROR: the first and second points coalescing");
 		// TC12: Test three points are on the same line
-		assertThrows(IllegalArgumentException.class,
-				() -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(3, 6, 9)),
-				"ERROR: does not throw exception for three points are on the same line");
+		assertThrows(IllegalArgumentException.class, //
+				() -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(3, 6, 9)), //
+				"ERROR: all three points are on the same line");
 	}
 
 	/**
@@ -49,7 +49,9 @@ public class PlaneTests {
 		// test the length is 1
 		assertEquals(1, normal.length(), DELTA, "ERROR: the length of the normal is not 1");
 		// check the normal in orthogonal to the plane
-	    assertEquals(0, normal.dotProduct(new Vector(0, 1, -1)), DELTA, "ERROR: the normal isn't orthogonal to the vector (0,1,-1) on the plane");
-        assertEquals(0, normal.dotProduct(new Vector(1, 0, -1)), DELTA, "ERROR: the normal isn't orthogonal to the vector (1,0,-1) on the plane");
+		assertEquals(0, normal.dotProduct(new Vector(0, 1, -1)), DELTA,
+				"ERROR: the normal isn't orthogonal to the vector (0,1,-1) on the plane");
+		assertEquals(0, normal.dotProduct(new Vector(1, 0, -1)), DELTA,
+				"ERROR: the normal isn't orthogonal to the vector (1,0,-1) on the plane");
 	}
 }

@@ -14,6 +14,9 @@ import geometries.Cylinder;
  */
 public class CylinderTests {
 
+	/**
+	 * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}.
+	 */
 	@Test
 	void testGetNormal() {
 		Cylinder cylinder = new Cylinder(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0)), 1, 5);
