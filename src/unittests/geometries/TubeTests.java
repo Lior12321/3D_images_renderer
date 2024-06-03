@@ -19,7 +19,7 @@ public class TubeTests {
 	 * Test method for {@link geometries.Tube#getNormal(primitives.Point)}.
 	 */
 	@Test
-	public void testGetNormalPoint() {
+	public void testGetNormal() {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Test that the normal is the correct one
 		Tube t1 = new Tube(new Ray(new Point(1, 1, 1), new Vector(0, 1, 0)), 1);
@@ -28,7 +28,7 @@ public class TubeTests {
 
 		// =============== Boundary Values Tests ==================
 		// TC11: getNormal works for a normal that is vertical to the axis ray
-		assertEquals(new Vector(0, 0, 1), t1.getNormal(new Point(1, 1, 2)), //
+		assertEquals(t1.getAxis().getDir(), t1.getNormal(new Point(1, 1, 2)), //
 				"getNormal() didn't work properly for normal that is perpendicular to the axis ray");
 	}
 }

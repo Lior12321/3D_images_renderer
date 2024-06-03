@@ -46,8 +46,8 @@ public class Ray {
      * @return the starting point of the ray
      */
     public Point getHead() {
-        return head;
-    }
+		return head;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

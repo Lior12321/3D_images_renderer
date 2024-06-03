@@ -10,7 +10,8 @@ import primitives.Point;
 public class Triangle extends Polygon {
 
 	/**
-	 * Constructs a new Triangle with the specified vertices.
+	 * Constructs a new Triangle with the specified vertices. the constructor send
+	 * all the arguments to polygon.
 	 *
 	 * @param p1 the first vertex of the triangle
 	 * @param p2 the second vertex of the triangle

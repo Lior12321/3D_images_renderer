@@ -29,6 +29,16 @@ public class Tube extends RadialGeometry {
 		this.axis = ray;
 	}
 
+	// getters:
+	/**
+	 * Returns the central axis of the tube.
+	 *
+	 * @return The central axis of the tube.
+	 */
+	public Ray getAxis() {
+		return axis;
+	}
+
 	@Override
 	public Vector getNormal(Point p) {
 		// Project the point onto the axis

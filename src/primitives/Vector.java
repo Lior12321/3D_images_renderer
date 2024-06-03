@@ -35,13 +35,6 @@ public class Vector extends Point {
 			throw new IllegalArgumentException("You enterd a zero vector!");
 	}
 
-	/**
-	 * check if two vectors are equal
-	 * 
-	 * @param obj the vector we check if it's equal to the vector which called the
-	 *            function
-	 * @return true/false determined by the equality of the two vectors
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
