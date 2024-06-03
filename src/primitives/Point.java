@@ -81,8 +81,8 @@ public class Point {
 	 * @return A new vector which is the result of subtracting the given point from
 	 *         this point.
 	 */
-	public Vector subtract(Point P) {
-		return new Vector(xyz.d1 - P.xyz.d1, xyz.d2 - P.xyz.d2, xyz.d3 - P.xyz.d3);
+	public Vector subtract(Point p) {
+		return new Vector(xyz.d1 - p.xyz.d1, xyz.d2 - p.xyz.d2, xyz.d3 - p.xyz.d3);
 	}
 
 	/**
@@ -91,10 +91,10 @@ public class Point {
 	 * @param P The other point.
 	 * @return The squared distance between this point and the other point.
 	 */
-	public double distanceSquared(Point P) {
-		double dx = xyz.d1 - P.xyz.d1;
-		double dy = xyz.d2 - P.xyz.d2;
-		double dz = xyz.d3 - P.xyz.d3;
+	public double distanceSquared(Point p) {
+		double dx = xyz.d1 - p.xyz.d1;
+		double dy = xyz.d2 - p.xyz.d2;
+		double dz = xyz.d3 - p.xyz.d3;
 		return dx * dx + dy * dy + dz * dz;
 	}
 
@@ -104,7 +104,7 @@ public class Point {
 	 * @param P The other point.
 	 * @return The distance between this point and the other point.
 	 */
-	public double distance(Point P) {
-		return Math.sqrt(this.distanceSquared(P));
+	public double distance(Point p) {
+		return Math.sqrt(this.distanceSquared(p));
 	}
 }

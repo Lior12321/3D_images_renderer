@@ -28,7 +28,7 @@ public class TubeTests {
 
 		// =============== Boundary Values Tests ==================
 		// TC11: getNormal works for a normal that is vertical to the axis ray
-		assertEquals(t1.getAxis().getDir(), t1.getNormal(new Point(1, 1, 2)), //
+		assertEquals(new Vector(0, 0, 1), t1.getNormal(new Point(1, 1, 2)), //
 				"getNormal() didn't work properly for normal that is perpendicular to the axis ray");
 	}
 }

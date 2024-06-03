@@ -10,13 +10,13 @@ import primitives.Vector;
  * 
  * @author Lior &amp; Asaf
  */
-public interface Geometry {
+public interface Geometry extends Intersectable {
 
 	/**
 	 * Returns the normal vector to the geometry shape at the specified point.
 	 * 
-	 * @param 	point a point on the geometry where the normal is to be calculated
-	 * @return 	the normal vector at the specified point
+	 * @param point a point on the geometry where the normal is to be calculated
+	 * @return the normal vector at the specified point
 	 */
-	Vector getNormal(Point p);
+	Vector getNormal(Point point);
 }

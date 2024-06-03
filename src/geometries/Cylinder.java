@@ -56,7 +56,7 @@ public class Cylinder extends Tube {
 			Vector v1 = p.subtract(firstCenter);
 			return v1.normalize();
 		}
-		
+
 		// If the point on the side of the cylinder.
 		Point center = firstCenter.add(cylinderCenterVector.scale(projection));
 		Vector v = p.subtract(center);

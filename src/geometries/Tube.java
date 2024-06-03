@@ -1,8 +1,12 @@
 package geometries;
 
 import primitives.Vector;
+
+import java.util.List;
+
 import primitives.Point;
 import primitives.Ray;
+import static primitives.Util.*;
 
 /**
  * The Tube class represents a tube in 3D space, defined by a central axis and a
@@ -47,13 +51,16 @@ public class Tube extends RadialGeometry {
 
 		// Calculate the projection of the point onto the axis
 		double projection = p.subtract(p0).dotProduct(centerVec);
-		if (projection == 0)
-			throw new IllegalArgumentException("projection cannot be zero");
-
 		// Find the closest point on the centerVec to the given point
-		Point centerP = p0.add(centerVec.scale(projection));
+		Point centerP = isZero(projection) ? p0 : p0.add(centerVec.scale(projection));
 
 		// Calculate the normal vector
 		return p.subtract(centerP).normalize();
+	}
+
+	@Override
+	public List<Point> findIntersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
