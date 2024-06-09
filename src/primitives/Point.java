@@ -107,4 +107,32 @@ public class Point {
 	public double distance(Point p) {
 		return Math.sqrt(this.distanceSquared(p));
 	}
+
+	// getters:
+	/**
+	 * Returns the X coordinate.
+	 *
+	 * @return the X coordinate as a double.
+	 */
+	public double getX() {
+		return xyz.d1;
+	}
+
+	/**
+	 * Returns the Y coordinate.
+	 *
+	 * @return the Y coordinate as a double.
+	 */
+	public double getY() {
+		return xyz.d2;
+	}
+
+	/**
+	 * Returns the Z coordinate.
+	 *
+	 * @return the Z coordinate as a double.
+	 */
+	public double getZ() {
+		return xyz.d3;
+	}
 }
