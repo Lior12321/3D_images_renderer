@@ -76,10 +76,18 @@ public class Plane implements Geometry {
 		return base;
 	}
 
+	/**
+	 * checks for intersections between a given ray and the plane
+	 * @param ray a given ray
+	 * @return a list of the points of the intersections
+	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		if (Util.isZero(normal.dotProduct(ray.getDir()))) return null;
 
+		if (base.equals(ray.getHead())) return null;
+		double t = Util.alignZero(base.subtract(ray.getHead()).dotProduct(normal)) / (ray.getDir().dotProduct(normal));
+		if (t <= 0) return null;
+		return List.of(ray.getPoint(t));
+	}
 }

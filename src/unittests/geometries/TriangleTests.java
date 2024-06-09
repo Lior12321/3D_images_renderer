@@ -75,5 +75,4 @@ public class TriangleTests {
 		assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, -1, 0.5))),
 				"ERROR: findIntersections() did not return null");
 	}
-
 }

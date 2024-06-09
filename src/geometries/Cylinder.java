@@ -2,6 +2,9 @@ package geometries;
 
 import primitives.*;
 
+import java.awt.*;
+import java.util.List;
+
 /**
  * Represents a cylinder in 3D space. A cylinder is defined by its central axis,
  * radius, and height.

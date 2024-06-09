@@ -111,6 +111,5 @@ public class PlaneTests {
 		// TC16: Ray starts in the same point as the point that is the base of the plane
 		assertNull(p.findIntersections(new Ray(p.getBase(), new Vector(2, 1, 1))), //
 				"ERROR: Wrong number of points (ray starts in the same point as the point that is the base of the plane)");
-
 	}
 }
