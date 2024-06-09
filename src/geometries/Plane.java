@@ -31,7 +31,8 @@ public class Plane implements Geometry {
 	 * @param p1 the first point on the plane, used as the base point
 	 * @param p2 the second point on the plane
 	 * @param p3 the third point on the plane
-	 * @throws IllegalArgumentException when there are convergent points or the points are co-linear
+	 * @throws IllegalArgumentException when there are convergent points or the
+	 *                                  points are co-linear
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		base = p1;
@@ -63,6 +64,16 @@ public class Plane implements Geometry {
 	@Override
 	public Vector getNormal(Point point) {
 		return normal;
+	}
+
+	// getters:
+	/**
+	 * Returns the base point.
+	 *
+	 * @return the base point
+	 */
+	public Point getBase() {
+		return base;
 	}
 
 	@Override
