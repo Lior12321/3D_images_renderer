@@ -60,4 +60,14 @@ public class Ray {
 	public String toString() {
 		return head + "->" + direction;
 	}
+
+	/**
+	 * get Point in specific distance in the direction of the ray
+	 * 
+	 * @param t scalar. the distance to the new Point
+	 * @return the wanted point
+	 */
+	public Point getPoint(double t) {
+		return head.add(direction.scale(t));
+	}
 }

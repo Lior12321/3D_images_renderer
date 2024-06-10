@@ -60,10 +60,9 @@ public class SphereTests {
         assertEquals(exp, result1, "Ray crosses sphere");
 
         // TC03: Ray starts inside the sphere (1 point)
-        final var result2 = sphere.findIntersections(new Ray(new Point(0.5, 0, 0), v310)).stream()
-                .sorted(Comparator.comparingDouble(p -> p.distance(p01))).toList();
+        final var result2 = sphere.findIntersections(new Ray(new Point(0.5, 0, 0), new Vector(1, 2, 0)));
         assertEquals(1, result2.size(), "There should be one intersection");
-        assertEquals(List.of(new Point(0, 0, 1)), result2, "Incorrect intersection point");
+        assertEquals(List.of(new Point(1, 1, 0)), result2, "Incorrect intersection point");
 
         // TC04: Ray starts after the sphere (0 points)
         assertNull(sphere.findIntersections(new Ray(new Point(3, 0.5, 0), v100)),
@@ -88,8 +87,8 @@ public class SphereTests {
         if ((result.get(0)).getX() > result.get(1).getX())
             result = List.of(result.get(1), result.get(0));
         assertEquals(List.of(new Point(0, 0, 0), new Point(2, 0, 0)), result, //
-                "Incorrect intersection points");
-
+                "Incorrect intersection points");	
+        
         // TC14: Ray starts at sphere and goes inside (1 points)
         result = sphere.findIntersections(new Ray(new Point(1, -1, 0), v010));
         assertEquals(1, result.size(), "There should be one intersection");
