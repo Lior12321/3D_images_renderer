@@ -14,6 +14,10 @@ public abstract class RadialGeometry implements Geometry {
 	 * The radius of the radial shape
 	 */
 	protected final double radius;
+	/**
+	 * The squared radius of the radial shape
+	 */
+	protected final double squaredRadius;
 
 	/**
 	 * Constructs a RadialGeometry with the specified radius.
@@ -26,5 +30,6 @@ public abstract class RadialGeometry implements Geometry {
 		if (alignZero(radius) <= 0)
 			throw new IllegalArgumentException("The radius must be positive number!");
 		this.radius = radius;
+		squaredRadius = radius * radius;
 	}
 }

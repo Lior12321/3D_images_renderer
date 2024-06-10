@@ -47,7 +47,7 @@ public class Plane implements Geometry {
 	 * @param normal the normal vector to the plane
 	 * @param p1     the base point on the plane
 	 */
-	Plane(Vector normal, Point p1) {
+	public Plane(Vector normal, Point p1) {
 		this.normal = normal.normalize();
 		base = p1;
 	}
@@ -79,14 +79,19 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		if (isZero(normal.dotProduct(ray.getDir()))) {
+		Point head =  ray.getHead();
+		if (base.equals(head)) {
+			return null;
+		}
+		double nv = normal.dotProduct(ray.getDir());
+		if (isZero(nv)) {
 			return null;
 		}
 
-		if (base.equals(ray.getHead())) {
+		if (base.equals(head)) {
 			return null;
 		}
-		double t = alignZero(base.subtract(ray.getHead()).dotProduct(normal)) / (ray.getDir().dotProduct(normal));
+		double t = alignZero(base.subtract(head).dotProduct(normal)) / nv;
 		if (t <= 0) {
 			return null;
 		}
