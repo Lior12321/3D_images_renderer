@@ -35,6 +35,7 @@ public class PlaneTests {
 		assertThrows(IllegalArgumentException.class, //
 				() -> new Plane(new Point(1, 2, 3), new Point(1, 2, 3), new Point(1, 2, 4)), //
 				"ERROR: the first and second points coalescing");
+		
 		// TC12: Test three points are on the same line
 		assertThrows(IllegalArgumentException.class, //
 				() -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(3, 6, 9)), //
@@ -77,7 +78,7 @@ public class PlaneTests {
 		// TC02: Ray isn't crosses the plane (parallel)
 		assertNull(p.findIntersections(new Ray(new Point(0, 0, 1.5), new Vector(1, 0, 1.5))),
 				"ERROR: Wrong number of points, need to return null (ray included in the plane");
-		
+
 		// =============== Boundary Values Tests ==================
 		// **** Group: ray parallel to the plane
 		// TC10: Ray is parallel to the plane and included in the plane

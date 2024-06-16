@@ -51,6 +51,7 @@ public class Plane implements Geometry {
 		this.normal = normal.normalize();
 		base = p1;
 	}
+	// getters:
 
 	/**
 	 * Returns the normal vector of the plane.
@@ -67,7 +68,6 @@ public class Plane implements Geometry {
 		return normal;
 	}
 
-	// getters:
 	/**
 	 * Returns the base point.
 	 *
@@ -79,23 +79,33 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		Point head =  ray.getHead();
+		Point head = ray.getHead();
+		Vector direction = ray.getDir();
+
+		// Check if the ray's origin intersects with the plane
 		if (base.equals(head)) {
 			return null;
 		}
-		double nv = normal.dotProduct(ray.getDir());
+
+		// Calculate the dot product of the normal vector and the ray direction
+		double nv = normal.dotProduct(direction);
+
+		// If the dot product is zero, the ray is parallel to the plane and does not
+		// intersect
 		if (isZero(nv)) {
 			return null;
 		}
 
-		if (base.equals(head)) {
-			return null;
-		}
-		double t = alignZero(base.subtract(head).dotProduct(normal)) / nv;
+		// Calculate the intersection point
+		double t = alignZero(normal.dotProduct(base.subtract(head)) / nv);
+
+		// If the intersection point is behind the ray's origin, there is no
+		// intersection
 		if (t <= 0) {
 			return null;
 		}
+
+		// Return the intersection point
 		return List.of(ray.getPoint(t));
 	}
 }
-

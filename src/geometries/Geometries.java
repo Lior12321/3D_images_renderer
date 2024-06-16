@@ -38,19 +38,17 @@ public class Geometries implements Intersectable {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		List<Point> intersectionlist = null;
-		List<Point> add = null;
-		for (Intersectable geos : geometries) {
-			add = geos.findIntersections(ray);
-			//only if we find an intersection with form - change the result to have value
-			if (add != null) {
-				if (intersectionlist == null) {
-					intersectionlist = new LinkedList<Point>();
-				}
-				intersectionlist.addAll(add);
-			}
-		}
-		return intersectionlist;
-	}
+    public List<Point> findIntersections(Ray ray) {
+        List<Point> intersectionList = null;
+        for (Intersectable geo : geometries) {
+            List<Point> intersections = geo.findIntersections(ray);
+            if (intersections != null) {
+                if (intersectionList == null) {
+                    intersectionList = new LinkedList<>();
+                }
+                intersectionList.addAll(intersections);
+            }
+        }
+        return intersectionList;
+    }
 }
