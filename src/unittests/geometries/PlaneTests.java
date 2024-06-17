@@ -35,7 +35,7 @@ public class PlaneTests {
 		assertThrows(IllegalArgumentException.class, //
 				() -> new Plane(new Point(1, 2, 3), new Point(1, 2, 3), new Point(1, 2, 4)), //
 				"ERROR: the first and second points coalescing");
-		
+
 		// TC12: Test three points are on the same line
 		assertThrows(IllegalArgumentException.class, //
 				() -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(3, 6, 9)), //

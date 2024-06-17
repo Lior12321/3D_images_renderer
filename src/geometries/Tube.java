@@ -6,6 +6,7 @@ import java.util.List;
 
 import primitives.Point;
 import primitives.Ray;
+
 /**
  * The Tube class represents a tube in 3D space, defined by a central axis and a
  * radius.
@@ -43,13 +44,14 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point p) {
-		// Finding the deference between the closest point to the given point that is on the
+		// Finding the deference between the closest point to the given point that is on
+		// the
 		// axis ray
 		double t = axis.getDir().dotProduct(p.subtract(axis.getHead()));
 		// Returning the subtraction of one from the other
 		return p.subtract(axis.getPoint(t)).normalize();
-	}	
-	
+	}
+
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		// TODO Auto-generated method stub

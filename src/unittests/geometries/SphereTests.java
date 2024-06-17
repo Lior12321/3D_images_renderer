@@ -82,10 +82,10 @@ public class SphereTests {
 
 		// **** Group: Ray's line goes through the center
 		// TC13: Ray starts before the sphere (2 points)
-		result = sphere.findIntersections(new Ray(p01, v100));
+		result = sphere.findIntersections(new Ray(p01, v100)).stream()
+				.sorted(Comparator.comparingDouble(p -> p.distance(p01))).toList();
+		
 		assertEquals(2, result.size(), "There should be two intersections");
-		if ((result.get(0)).getX() > result.get(1).getX())
-			result = List.of(result.get(1), result.get(0));
 		assertEquals(List.of(new Point(0, 0, 0), new Point(2, 0, 0)), result, //
 				"Incorrect intersection points");
 

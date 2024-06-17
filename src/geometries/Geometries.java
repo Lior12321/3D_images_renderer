@@ -11,7 +11,7 @@ public class Geometries implements Intersectable {
 	/*
 	 * list of all the geometries bodies
 	 */
-	private final List<Intersectable> geometries = new LinkedList<Intersectable>();
+	private final List<Intersectable> geometries = new LinkedList<>();
 
 	/**
 	 * default contractor for Geometries class
@@ -38,17 +38,17 @@ public class Geometries implements Intersectable {
 	}
 
 	@Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> intersectionList = null;
-        for (Intersectable geo : geometries) {
-            List<Point> intersections = geo.findIntersections(ray);
-            if (intersections != null) {
-                if (intersectionList == null) {
-                    intersectionList = new LinkedList<>();
-                }
-                intersectionList.addAll(intersections);
-            }
-        }
-        return intersectionList;
-    }
+	public List<Point> findIntersections(Ray ray) {
+		List<Point> intersectionList = null;
+		for (Intersectable geo : geometries) {
+			var intersections = geo.findIntersections(ray);
+			if (intersections != null) {
+				if (intersectionList == null)
+					intersectionList = new LinkedList<>(intersections);
+				else
+					intersectionList.addAll(intersections);
+			}
+		}
+		return intersectionList;
+	}
 }

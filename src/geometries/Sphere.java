@@ -66,6 +66,5 @@ public class Sphere extends RadialGeometry {
 		return alignZero(firstDistance) <= 0 //
 				? List.of(ray.getPoint(secondDistance)) //
 				: List.of(ray.getPoint(firstDistance), ray.getPoint(secondDistance));
-
 	}
 }

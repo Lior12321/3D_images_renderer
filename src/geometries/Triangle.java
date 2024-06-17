@@ -32,15 +32,14 @@ public class Triangle extends Polygon {
 		// is one)
 		List<Point> result = plane.findIntersections(ray);
 		// If there is no intersection with the plane, return null
-		if (result == null) {
+		if (result == null)
 			return null;
-		}
 
 		// Get vertices of the triangle
-		final Point a = vertices.get(0);
+		final Point a = vertices.getFirst();
 		final Point b = vertices.get(1);
-		final Point c = vertices.get(2);
-		final Point p = result.get(0);
+		final Point c = vertices.getLast();
+		final Point p = result.getFirst();
 		// Vector normal = plane.getNormal();
 
 		final Vector ab, bc, ac, aq, bq, cq;
@@ -59,7 +58,7 @@ public class Triangle extends Polygon {
 			// Calculate area of the triangle
 			area = ab.crossProduct(ac).length();
 
-			// Calculate barycentric coordinates
+			// Calculate baricentric coordinates
 			alpha = ab.crossProduct(aq).length() / area;
 			beta = bc.crossProduct(bq).length() / area;
 			gamma = ac.crossProduct(cq).length() / area;

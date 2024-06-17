@@ -38,9 +38,9 @@ class GeometriesTests {
 		assertEquals(3, result.size(), "More then one object intersect (but not all the objects)");
 
 		// =============== Boundary Values Tests ==================
-		// TC10: Empty list		
-        result = new Geometries().findIntersections(new Ray(new Point(1, 1, 1), new Vector(0, -1, 0)));
-        assertNull(result, "The List empty");
+		// TC10: Empty list
+		result = new Geometries().findIntersections(new Ray(new Point(1, 1, 1), new Vector(0, -1, 0)));
+		assertNull(result, "The List empty");
 
 		// TC11: No intersection with the objects
 		result = geos.findIntersections(new Ray(new Point(1, -1, 1), new Vector(0, -1, 0)));
