@@ -11,7 +11,7 @@ public class Geometries implements Intersectable {
 	/*
 	 * list of all the geometries bodies
 	 */
-	final List<Intersectable> geometries = new LinkedList<Intersectable>();
+	private final List<Intersectable> geometries = new LinkedList<Intersectable>();
 
 	/**
 	 * default contractor for Geometries class
