@@ -22,7 +22,8 @@ public class Geometries implements Intersectable {
 	/**
 	 * parametric contractor to add all the geometries bodies to the geometries list
 	 * 
-	 * @param geometries
+	 * @param geometries an array of Intersectable objects to be added to the
+	 *                   geometries list.
 	 */
 	public Geometries(Intersectable... geometries) {
 		this.add(geometries);
@@ -31,7 +32,8 @@ public class Geometries implements Intersectable {
 	/**
 	 * Adds multiple geometries to the collection.
 	 * 
-	 * @param geometries
+	 * @param geometries an array of Intersectable objects to be added to the
+	 *                   geometries list.
 	 */
 	public void add(Intersectable... geometries) {
 		this.geometries.addAll(List.of(geometries));

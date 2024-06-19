@@ -12,6 +12,11 @@ import static primitives.Util.*;
 
 import java.util.List;
 
+/**
+ * Unit test for geometries.Triangle class
+ *
+ * @author Lior &amp; Asaf
+ */
 public class TriangleTests {
 	/**
 	 * Delta value for accuracy when comparing the numbers of type 'double' in

@@ -63,6 +63,23 @@ public class VectorTests {
 	}
 
 	/**
+	 * Test method for {@link primitives.Vector#subtract(primitives.Vector)}.
+	 */
+	@Test
+	void testSubtract() {
+		Vector v1 = new Vector(3, 6, 9);
+		// ============ Equivalence Partitions Tests ==============
+		// TC01: Test that the subtracted vector is the right one
+		assertEquals(v1.subtract(new Vector(2, 4, 6)), new Vector(1, 2, 3),
+				"ERROR: Vector - Vector does not work correctly");
+
+		// =============== Boundary Values Tests ==================
+		// TC10 Test Vector - Itself = Zero Vector
+		assertThrows(IllegalArgumentException.class, () -> v1.subtract(v1),
+				"ERROR: does not throw exception for subtracting a vector from itself");
+	}
+
+	/**
 	 * Test method for {@link primitives.Vector#scale(double)}.
 	 */
 	@Test
