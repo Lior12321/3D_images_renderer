@@ -122,24 +122,37 @@ public class Camera implements Cloneable {
 	}
 
 	/**
+	 * Returns a new instance of the Builder for creating a Camera object.
 	 * 
 	 * @return Builder
 	 */
 	public static Builder getBuilder() {
 		return new Builder();
-
 	}
 
 	/**
+	 * Constructs ray from camera's location to a the center of a given pixel in the
+	 * view plane.
 	 * 
-	 * @param nX
-	 * @param nY
-	 * @param j
-	 * @param i
-	 * @return null
+	 * @param nX number of columns
+	 * @param nY number of rows
+	 * @param j  current pixel x index
+	 * @param i  current pixel y index
+	 * @return resulting Ray
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
-		return null;
+		Point pIJ = location.add(vTo.scale(distance));
+
+		// Calculate distance on x,y axes to the designated point
+		double yI = -(((nY - 1) / 2.0) - i) * (height / nY);
+		double xJ = (((nX - 1) / 2.0) - j) * (width / nX);
+
+		// Avoiding creation of zero vector (which is unnecessary anyway)
+		if (!isZero(xJ))
+			pIJ = pIJ.add(vRight.scale(xJ));
+		if (!isZero(yI))
+			pIJ = pIJ.add(vUp.scale(yI));
+		return new Ray(location, pIJ.subtract(location));
 	}
 
 	/**

@@ -85,7 +85,6 @@ public class Plane implements Geometry {
 		if (base.equals(head))
 			return null;
 
-
 		// Calculate the dot product of the normal vector and the ray direction
 		double nv = normal.dotProduct(direction);
 		// If the dot product is zero, the ray is parallel to the plane and does not
