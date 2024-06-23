@@ -54,7 +54,7 @@ public class Camera implements Cloneable {
 	 * default constructor
 	 */
 	private Camera() {
-
+		
 	}
 
 	// getters:
