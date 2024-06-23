@@ -1,5 +1,6 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -14,47 +15,36 @@ import java.util.MissingResourceException;
  * @author Lior &amp; Asaf
  */
 public class Camera implements Cloneable {
-	/**
-	 * The position of the camera.
-	 */
+	/** The position of the camera. */
 	private Point location;
 
-	/**
-	 * The up direction vector of the camera.
-	 */
+	/** The up direction vector of the camera. */
 	private Vector vUp = null;
 
-	/**
-	 * The right direction vector of the camera.
-	 */
+	/** The right direction vector of the camera. */
 	private Vector vRight = null;
 
-	/**
-	 * The to direction vector of the camera.
-	 */
+	/** The to direction vector of the camera. */
 	private Vector vTo = null;
 
-	/**
-	 * The width of the view plane.
-	 */
+	/** The width of the view plane. */
 	private double width = 0.0;
 
-	/**
-	 * The height of the view plane.
-	 */
+	/** The height of the view plane. */
 	private double height = 0.0;
 
-	/**
-	 * The distance from the camera to the view plane.
-	 */
+	/** The distance from the camera to the view plane. */
 	private double distance = 0.0;
 
-	// constructor:
-	/**
-	 * default constructor
-	 */
+	/** The image writer for outputting the image. */
+	private ImageWriter imageWriter;
+
+	/** The ray tracer for tracing rays in the scene. */
+	private RayTracerBase rayTracer;
+
+	/** default constructor */
 	private Camera() {
-		
+
 	}
 
 	// getters:
@@ -155,15 +145,45 @@ public class Camera implements Cloneable {
 		return new Ray(location, pIJ.subtract(location));
 	}
 
+	public void renderImage() {
+		/**
+		 * TODO:add implement
+		 */
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Draws a grid on the image with specified intervals and color. The method adds
+	 * horizontal and vertical lines on the image at the given intervals
+	 * 
+	 * @param interval the interval between the grid lines.
+	 * @param color    the color of the grid lines.
+	 * @throws MissingResourceException if there is no image to write on.
+	 */
+	public void printGrid(int interval, Color color) {
+		if (imageWriter == null)
+			throw new MissingResourceException("There isn't image to write on", getClass().getName(), "");
+		int nY = imageWriter.getNy();
+		int nX = imageWriter.getNx();
+
+		// Draw horizontal grid lines
+		for (int i = 0; i < nY; i += interval)
+			for (int j = 0; j < nX; j += 1)
+				imageWriter.writePixel(i, j, color);
+		
+	    // Draw vertical grid lines
+		for (int i = 0; i < nY; i += 1)
+			for (int j = 0; j < nX; j += interval)
+				imageWriter.writePixel(i, j, color);
+	}
+
 	/**
 	 * Builder class for constructing a Camera object.
 	 * 
 	 * @author Lior &amp; Asaf
 	 */
 	public static class Builder {
-		/**
-		 * constructing the camera object.
-		 */
+		/** constructing the camera object. */
 		private final Camera camera = new Camera();
 
 		/**
@@ -233,6 +253,28 @@ public class Camera implements Cloneable {
 		}
 
 		/**
+		 * Sets the image writer for the camera.
+		 * 
+		 * @param imageWriter the image writer.
+		 * @return the Builder instance.
+		 */
+		public Builder setImageWriter(ImageWriter imageWriter) {
+			this.camera.imageWriter = imageWriter;
+			return this;
+		}
+
+		/**
+		 * Sets the ray tracer for the camera.
+		 * 
+		 * @param rayTracer the ray tracer.
+		 * @return the Builder instance.
+		 */
+		public Builder setRayTracer(RayTracerBase rayTracer) {
+			this.camera.rayTracer = rayTracer;
+			return this;
+		}
+
+		/**
 		 * Builds and returns the Camera object.
 		 * 
 		 * @return the built Camera object (clone).
@@ -257,6 +299,10 @@ public class Camera implements Cloneable {
 				throw new MissingResourceException(missingRender, builder, "up direction vector not defined");
 			if (camera.height < 0 || camera.width < 0 || camera.distance < 0)
 				throw new IllegalArgumentException(wrongPlaneValues);
+			if (camera.imageWriter == null)
+				throw new MissingResourceException(missingRender, builder, "imageWriter not defined");
+			if (camera.rayTracer == null)
+				throw new MissingResourceException(missingRender, builder, "rayTracer not defined");
 			this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
 
 			try {
