@@ -2,6 +2,8 @@ package primitives;
 
 import static primitives.Util.*;
 
+import java.util.List;
+
 /**
  * Represents a ray in 3D space. A ray is defined by a starting point (head) and
  * a direction vector.
@@ -71,6 +73,27 @@ public class Ray {
 	 */
 	public Point getPoint(double t) {
 		return isZero(t) ? head : head.add(direction.scale(t));
+	}
+	
+	/**
+	 * finds the closest point to the ray's origin point and returns it
+	 * 
+	 * @param points points to check
+	 * @return closest point
+	 */
+	public Point findClosestPoint(List<Point> points) {
+		Point closestPoint = null;
+		double maxDistance = Integer.MAX_VALUE;
+		double calcDistance;
+
+		for (Point point : points) {
+			calcDistance = point.distanceSquared(head);
+			if (calcDistance < maxDistance) {
+				closestPoint = point;
+				maxDistance = calcDistance;
+			}
+		}
+		return closestPoint;
 	}
 
 }
