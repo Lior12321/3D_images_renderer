@@ -145,11 +145,43 @@ public class Camera implements Cloneable {
 		return new Ray(location, pIJ.subtract(location));
 	}
 
-	public void renderImage() {
-		/**
-		 * TODO:add implement
-		 */
-		throw new UnsupportedOperationException();
+	/**
+	 * Renders an image by casting rays through every pixel and writing the
+	 * calculated color to each pixel using the image writer.
+	 * 
+	 * @return the camera instance (this) to allow method chaining
+	 * @throws MissingResourceException if the image writer or ray tracer is not set
+	 */
+	public Camera renderImage() {
+		// verify that imageWriter and rayTracer aren't null
+		if (imageWriter == null)
+			throw new MissingResourceException("Image writer was null", getClass().getName(), "");
+		if (rayTracer == null)
+			throw new MissingResourceException("Ray tracer was null", getClass().getName(), "");
+
+		for (int i = 0; i < imageWriter.getNy(); ++i)
+			for (int j = 0; j < imageWriter.getNx(); j++)
+				castRay(i, j, i, j);
+		return this;
+		// imageWriter.writePixel(j, i,
+
+		// throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Constructs a ray through the center of a given pixel, traces the ray to
+	 * determine its color, and writes the color to the pixel using the image
+	 * writer.
+	 *
+	 * @param nX the number of columns in the resolution
+	 * @param nY the number of rows in the resolution
+	 * @param j  the column index of the pixel
+	 * @param i  the row index of the pixel
+	 */
+	private void castRay(int nX, int nY, int j, int i) {
+		Ray ray = constructRay(nX, nY, j, i);
+		Color color = rayTracer.traceRay(ray);
+		imageWriter.writePixel(j, i, color);
 	}
 
 	/**
@@ -158,9 +190,10 @@ public class Camera implements Cloneable {
 	 * 
 	 * @param interval the interval between the grid lines.
 	 * @param color    the color of the grid lines.
+	 * @return the camera instance (this) to allow method chaining
 	 * @throws MissingResourceException if there is no image to write on.
 	 */
-	public void printGrid(int interval, Color color) {
+	public Camera printGrid(int interval, Color color) {
 		if (imageWriter == null)
 			throw new MissingResourceException("There isn't image to write on", getClass().getName(), "");
 		int nY = imageWriter.getNy();
@@ -170,11 +203,24 @@ public class Camera implements Cloneable {
 		for (int i = 0; i < nY; i += interval)
 			for (int j = 0; j < nX; j += 1)
 				imageWriter.writePixel(i, j, color);
-		
-	    // Draw vertical grid lines
+
+		// Draw vertical grid lines
 		for (int i = 0; i < nY; i += 1)
 			for (int j = 0; j < nX; j += interval)
 				imageWriter.writePixel(i, j, color);
+		return this;
+	}
+
+	/**
+	 * Writes pixels to final image to the ImageWriter (using delegating)
+	 * 
+	 * @throws MissingResourceException if the image writer is not initialized.
+	 */
+	public void writeToImage() {
+		// Check if the image writer is initialized
+		if (imageWriter == null)
+			throw new MissingResourceException("Image writer was null", ImageWriter.class.getCanonicalName(), "");
+		imageWriter.writeToImage();
 	}
 
 	/**

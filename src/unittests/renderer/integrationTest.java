@@ -10,7 +10,9 @@ import geometries.*;
 import primitives.Point;
 import primitives.Vector;
 import renderer.Camera;
-import renderer.Camera.Builder;
+import renderer.ImageWriter;
+import renderer.SimpleRayTracer;
+import scene.Scene;
 
 /**
  * integration test class
@@ -42,11 +44,15 @@ class integrationTest {
 	}
 
 	 /** Constructing the camera */
-	Builder camera = new Builder();
-	/** The origin point (0, 0, 0) */
-	static final Point p000 = new Point(0, 0, 0);
+	Camera.Builder camera = Camera.getBuilder();
 	/** Error message for assertion failures */
-	static final String errorMassage = "ERROR: Wrong intersections number";
+	private final String errorMassage = "ERROR: Wrong intersections number";
+	//* ImageWriter example  */
+	private final ImageWriter imageWriter = new ImageWriter("base render test", 500, 800);
+	//* Scene example */
+	private final Scene scene = new Scene("test scene");
+	//* SimpleRayTracer example */
+	private final SimpleRayTracer rayTracer = new SimpleRayTracer(scene);
 
 	/**
 	 * Test method for intersections of camera rays with spheres.
@@ -55,14 +61,17 @@ class integrationTest {
 	void sphereTest() {
 		final Vector v010 = new Vector(0, 1, 0);
 		final Vector nv001 = new Vector(0, 0, -1);
-		camera.setVpSize(3, 3);
-		camera.setVpDistance(1);
-		camera.setDirection(nv001, v010);
-
+		camera.setVpSize(3, 3)
+		.setVpDistance(1)
+		.setDirection(nv001, v010)
+		.setLocation(Point.ZERO)
+		.setImageWriter(imageWriter)
+		.setRayTracer(rayTracer)
+		.build();
+		
 		// TC01: Two intersection points
 		Sphere sphere = new Sphere(new Point(0, 0, -3), 1);
-		camera.setLocation(p000);
-		camera.build();
+		
 		assertEquals(2, intersectionCount(camera.getCamera(), sphere, 3, 3), errorMassage);
 
 		// TC02: Eighteen intersection points
@@ -76,7 +85,7 @@ class integrationTest {
 		assertEquals(10, intersectionCount(camera.getCamera(), sphere, 3, 3), errorMassage);
 
 		// TC04: Nine intersection points
-		sphere = new Sphere(p000, 4);
+		sphere = new Sphere(Point.ZERO, 4);
 		assertEquals(9, intersectionCount(camera.getCamera(), sphere, 3, 3), errorMassage);
 
 		// TC05: Zero intersection points
@@ -89,11 +98,13 @@ class integrationTest {
 	 */
 	@Test
 	void planeTest() {
-		camera.setVpSize(3, 3);
-		camera.setVpDistance(1);
-		camera.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0));
-		camera.setLocation(p000);
-		camera.build();
+		camera.setVpSize(3, 3)
+		.setVpDistance(1)
+		.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
+		.setLocation(Point.ZERO)
+		.setImageWriter(imageWriter)
+		.setRayTracer(rayTracer)
+		.build();
 		final Point np003 = new Point(0, 0, -3);
 
 		// TC01: Nine intersection points
@@ -115,11 +126,13 @@ class integrationTest {
 	 */
 	@Test
 	void triangleTest() {
-		camera.setVpSize(3, 3);
-		camera.setVpDistance(1);
-		camera.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0));
-		camera.setLocation(p000);
-		camera.build();
+		camera.setVpSize(3, 3)
+		.setVpDistance(1)
+		.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
+		.setLocation(Point.ZERO)
+		.setImageWriter(imageWriter)
+		.setRayTracer(rayTracer)
+		.build();
 		
 		final Point p112 = new Point(1, -1, -2);
 		final Point np112 = new Point(-1, -1, -2);

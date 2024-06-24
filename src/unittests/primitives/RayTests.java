@@ -3,7 +3,6 @@ package unittests.primitives;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import java.util.logging.ErrorManager;
 
 import org.junit.jupiter.api.Test;
 
