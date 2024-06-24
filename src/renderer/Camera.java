@@ -158,13 +158,12 @@ public class Camera implements Cloneable {
 			throw new MissingResourceException("Image writer was null", getClass().getName(), "");
 		if (rayTracer == null)
 			throw new MissingResourceException("Ray tracer was null", getClass().getName(), "");
-
-		for (int i = 0; i < imageWriter.getNy(); ++i)
-			for (int j = 0; j < imageWriter.getNx(); j++)
-				castRay(i, j, i, j);
+		int nY=imageWriter.getNy();
+		int nX=imageWriter.getNx();
+		for (int i = 0; i <nY ; ++i)
+			for (int j = 0; j <nX ; j++)
+				castRay(nY, nX, i, j);
 		return this;
-		// imageWriter.writePixel(j, i,
-
 		// throw new UnsupportedOperationException();
 	}
 
@@ -179,7 +178,7 @@ public class Camera implements Cloneable {
 	 * @param i  the row index of the pixel
 	 */
 	private void castRay(int nX, int nY, int j, int i) {
-		Ray ray = constructRay(nX, nY, j, i);
+		Ray ray = constructRay(nX, nY, i, j);
 		Color color = rayTracer.traceRay(ray);
 		imageWriter.writePixel(j, i, color);
 	}
