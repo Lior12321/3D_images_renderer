@@ -13,7 +13,7 @@ import primitives.Vector;
  * 
  * @author Lior &amp; Asaf
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 	/**
 	 * The base point of the plane.
 	 */

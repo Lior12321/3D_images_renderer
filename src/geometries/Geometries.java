@@ -12,7 +12,7 @@ import primitives.Ray;
  * 
  * @author Lior &amp; Asaf
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
 	/**
 	 * list of all the geometries bodies

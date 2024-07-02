@@ -9,7 +9,7 @@ import static primitives.Util.*;
  * 
  * @author Lior &amp; Asaf
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 	/**
 	 * The radius of the radial shape
 	 */
