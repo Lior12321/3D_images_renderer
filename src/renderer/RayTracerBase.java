@@ -12,24 +12,24 @@ import scene.Scene;
  */
 public abstract class RayTracerBase {
 	/**
-     * The scene to be rendered.
-     */
-	protected Scene scene;
-	
+	 * The scene to be rendered.
+	 */
+	protected final Scene scene;
+
 	/**
-     * Constructs a RayTracerBase with a given scene.
-     *
-     * @param scene the scene to be rendered
-     */
+	 * Constructs a RayTracerBase with a given scene.
+	 *
+	 * @param scene the scene to be rendered
+	 */
 	public RayTracerBase(Scene scene) {
 		this.scene = scene;
 	}
-	
+
 	/**
-     * Traces a ray in the scene and determines the color seen along the ray.
-     *
-     * @param ray the ray to be traced
-     * @return the color seen along the ray
-     */
+	 * Traces a ray in the scene and determines the color seen along the ray.
+	 *
+	 * @param ray the ray to be traced
+	 * @return the color seen along the ray
+	 */
 	public abstract Color traceRay(Ray ray);
 }

@@ -44,7 +44,6 @@ public class Camera implements Cloneable {
 
 	/** default constructor */
 	private Camera() {
-
 	}
 
 	// getters:
@@ -153,15 +152,10 @@ public class Camera implements Cloneable {
 	 * @throws MissingResourceException if the image writer or ray tracer is not set
 	 */
 	public Camera renderImage() {
-		// verify that imageWriter and rayTracer aren't null
-		if (imageWriter == null)
-			throw new MissingResourceException("Image writer was null", getClass().getName(), "");
-		if (rayTracer == null)
-			throw new MissingResourceException("Ray tracer was null", getClass().getName(), "");
-		int nY=imageWriter.getNy();
-		int nX=imageWriter.getNx();
-		for (int i = 0; i <nY ; ++i)
-			for (int j = 0; j <nX ; j++)
+		int nY = imageWriter.getNy();
+		int nX = imageWriter.getNx();
+		for (int i = 0; i < nY; ++i)
+			for (int j = 0; j < nX; j++)
 				castRay(nY, nX, i, j);
 		return this;
 		// throw new UnsupportedOperationException();
@@ -193,8 +187,6 @@ public class Camera implements Cloneable {
 	 * @throws MissingResourceException if there is no image to write on.
 	 */
 	public Camera printGrid(int interval, Color color) {
-		if (imageWriter == null)
-			throw new MissingResourceException("There isn't image to write on", getClass().getName(), "");
 		int nY = imageWriter.getNy();
 		int nX = imageWriter.getNx();
 
@@ -216,9 +208,6 @@ public class Camera implements Cloneable {
 	 * @throws MissingResourceException if the image writer is not initialized.
 	 */
 	public void writeToImage() {
-		// Check if the image writer is initialized
-		if (imageWriter == null)
-			throw new MissingResourceException("Image writer was null", ImageWriter.class.getCanonicalName(), "");
 		imageWriter.writeToImage();
 	}
 
@@ -230,15 +219,6 @@ public class Camera implements Cloneable {
 	public static class Builder {
 		/** constructing the camera object. */
 		private final Camera camera = new Camera();
-
-		/**
-		 * Gets the camera object.
-		 * 
-		 * @return the camera object.
-		 */
-		public Camera getCamera() {
-			return camera;
-		}
 
 		/**
 		 * Sets the location of the camera in the space.
@@ -330,26 +310,34 @@ public class Camera implements Cloneable {
 			String missingRender = "Missing render data";
 			String builder = "builder";
 			String wrongPlaneValues = "the plane parameters nust be positive";
-			if (isZero(alignZero(camera.height)))
+			
+			// View Plane data checks
+			if (isZero(camera.height))
 				throw new MissingResourceException(missingRender, builder, "height = 0");
-			if (isZero(alignZero(camera.width)))
+			if (isZero(camera.width))
 				throw new MissingResourceException(missingRender, builder, "width = 0");
-			if (isZero(alignZero(camera.distance)))
+			if (isZero(camera.distance))
 				throw new MissingResourceException(missingRender, builder, "distance = 0");
+			if (camera.height < 0 || camera.width < 0 || camera.distance < 0)
+				throw new IllegalArgumentException(wrongPlaneValues);
+
+			// Camera location and direction data checks
 			if (camera.location == null)
 				throw new MissingResourceException(missingRender, builder, "camera location not defined");
 			if (camera.vTo == null)
 				throw new MissingResourceException(missingRender, builder, "to direction vector not defined");
 			if (camera.vUp == null)
 				throw new MissingResourceException(missingRender, builder, "up direction vector not defined");
-			if (camera.height < 0 || camera.width < 0 || camera.distance < 0)
-				throw new IllegalArgumentException(wrongPlaneValues);
+			if (!isZero(camera.vUp.dotProduct(camera.vTo)))
+				throw new MissingResourceException(missingRender, builder, "to and up directions are not orthogonal");
+			this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
+
+			// Helper objects checks
 			if (camera.imageWriter == null)
 				throw new MissingResourceException(missingRender, builder, "imageWriter not defined");
 			if (camera.rayTracer == null)
 				throw new MissingResourceException(missingRender, builder, "rayTracer not defined");
-			this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
-
+			
 			try {
 				return (Camera) camera.clone();
 			} catch (CloneNotSupportedException e) {

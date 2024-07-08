@@ -7,8 +7,9 @@ import primitives.Point;
 import primitives.Ray;
 
 /**
- * A composite class representing a collection of geometric objects.
- * This class implements the Intersectable interface, allowing it to find intersections with a ray.
+ * A composite class representing a collection of geometric objects. This class
+ * implements the Intersectable interface, allowing it to find intersections
+ * with a ray.
  * 
  * @author Lior &amp; Asaf
  */

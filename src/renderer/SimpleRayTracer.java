@@ -22,15 +22,12 @@ public class SimpleRayTracer extends RayTracerBase {
 	 */
 	public SimpleRayTracer(Scene scene) {
 		super(scene);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Color traceRay(Ray ray) {
-		List<Point> intersectionPoints = scene.geometries.findIntersections(ray);
-		if (intersectionPoints == null)
-			return scene.background;
-		return calcColor(ray.findClosestPoint(intersectionPoints));
+		var intersectionPoint = ray.findClosestPoint(scene.geometries.findIntersections(ray));
+		return intersectionPoint == null ? scene.background : calcColor(intersectionPoint);
 	}
 
 	/**
@@ -42,7 +39,7 @@ public class SimpleRayTracer extends RayTracerBase {
 	 */
 	private Color calcColor(Point p) {
 		return scene.ambientLight.getIntensity();
-		//TODO: use the point that we got as a parameter to determinate the color
+		// TODO: use the point that we got as a parameter to determinate the color
 	}
 
 }

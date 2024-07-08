@@ -13,7 +13,8 @@ import renderer.ImageWriter;
 class ImageWriterTest {
 
 	/**
-	 * Test method for TODO: add javadoc
+	 * Test method for creating an image with a grid pattern.
+	 * The method creates an image with a yellow background and red grid.
 	 */
 	@Test
 	void makeImage() {
