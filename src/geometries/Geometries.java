@@ -59,12 +59,3 @@ public class Geometries extends Intersectable {
 		return intersectionList;
 	}
 }
-
-/**
- * List<Point> intersectionList = null;for( Intersectable geo:geometries) { var
- * intersections = geo.findIntersections(ray); if (intersections != null) { if
- * (intersectionList == null) intersectionList = new
- * LinkedList<>(intersections); else intersectionList.addAll(intersections); }
- * }return intersectionList; }
- * 
- */

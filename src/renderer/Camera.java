@@ -133,8 +133,8 @@ public class Camera implements Cloneable {
 		Point pIJ = location.add(vTo.scale(distance));
 
 		// Calculate distance on x,y axes to the designated point
-		double yI = -(((nY - 1) / 2.0) - i) * (height / nY);
-		double xJ = (((nX - 1) / 2.0) - j) * (width / nX);
+		double yI = (((nY - 1) / 2.0) - i) * (height / nY); // -(i - (nY - 1) / 2)
+		double xJ = -(((nX - 1) / 2.0) - j) * (width / nX); // (j - (nX - 1) / 2)
 
 		// Avoiding creation of zero vector (which is unnecessary anyway)
 		if (!isZero(xJ))
@@ -156,7 +156,7 @@ public class Camera implements Cloneable {
 		int nX = imageWriter.getNx();
 		for (int i = 0; i < nY; ++i)
 			for (int j = 0; j < nX; j++)
-				castRay(nY, nX, i, j);
+				castRay(nX, nY, j, i); // we dosen't sure if thats rights
 		return this;
 		// throw new UnsupportedOperationException();
 	}
@@ -172,7 +172,7 @@ public class Camera implements Cloneable {
 	 * @param i  the row index of the pixel
 	 */
 	private void castRay(int nX, int nY, int j, int i) {
-		Ray ray = constructRay(nX, nY, i, j);
+		Ray ray = constructRay(nX, nY, j, i);
 		Color color = rayTracer.traceRay(ray);
 		imageWriter.writePixel(j, i, color);
 	}

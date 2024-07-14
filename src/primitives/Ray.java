@@ -52,7 +52,7 @@ public class Ray {
 	public Point getHead() {
 		return head;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -78,23 +78,14 @@ public class Ray {
 	/**
 	 * finds the closest point to the ray's origin point and returns it
 	 * 
-	 * @param points points to check
-	 * @return closest point
+	 * @param points list of points to check
+	 * @return closest point or null if the list is empty
 	 */
 	public Point findClosestPoint(List<Point> points) {
-		Point closestPoint = null;
-		double maxDistance = Double.POSITIVE_INFINITY;
-
-		for (Point point : points) {
-			double calcDistance = point.distanceSquared(head);
-			if (calcDistance < maxDistance) {
-				closestPoint = point;
-				maxDistance = calcDistance;
-			}
-		}
-		return closestPoint;
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
 	}
-	
+
 	/**
 	 * Returns the closest GeoPoint along the ray.
 	 * 
