@@ -1,7 +1,7 @@
 package primitives;
 
 import static primitives.Util.*;
-
+import geometries.Intersectable.GeoPoint;
 import java.util.List;
 
 /**
@@ -52,7 +52,7 @@ public class Ray {
 	public Point getHead() {
 		return head;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -93,6 +93,27 @@ public class Ray {
 			}
 		}
 		return closestPoint;
+	}
+	
+	/**
+	 * Returns the closest GeoPoint along the ray.
+	 * 
+	 * @param points GeoPoints to check
+	 * @return closest GeoPoint
+	 */
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
+		GeoPoint closest = null;
+		double minDistance = Double.POSITIVE_INFINITY;
+		double calcDistance;
+
+		for (GeoPoint point : intersections) {
+			calcDistance = point.point.distanceSquared(head);
+			if (calcDistance < minDistance) {
+				closest = point;
+				minDistance = calcDistance;
+			}
+		}
+		return closest;
 	}
 
 }

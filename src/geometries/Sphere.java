@@ -37,34 +37,35 @@ public class Sphere extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		// Check if the ray's origin intersects with the center of the sphere
-		if (ray.getHead().equals(center))
-			// If so, return the center plus the radius as the only intersection
-			return List.of(ray.getPoint(this.radius));
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		Point head = ray.getHead();
+		Vector dir = ray.getDir();
 
-		// Calculate the vector from the ray's head to the sphere's center
-		Vector pointToCenter = center.subtract(ray.getHead());
-		// Calculate the projection of this vector onto the ray's direction
-		double projection = pointToCenter.dotProduct(ray.getDir());
-		// Calculate the distance from the sphere's center to the ray
-		double squaredDistanceFromCenter = pointToCenter.lengthSquared() - projection * projection;
-		double squaredDistance = squaredRadius - squaredDistanceFromCenter;
+		// check if the ray starts from the center of the sphere
+		if (head.equals(center))
+			return List.of(new GeoPoint(this, ray.getPoint(radius)));
 
-		// If the distance from the center is greater than the radius, there are no
-		// intersections
-		if (alignZero(squaredDistance) <= 0)
+		// Identify the hypotenuse, base, and perpendicular of the triangle formed by the ray's
+		// starting point, the sphere's center, and the intersection point of the ray
+		// with the perpendicular line that pass through the sphere's center.
+		Vector hypotenuse = center.subtract(head);
+		double base = dir.dotProduct(hypotenuse);
+		double perpendicular = hypotenuse.lengthSquared() - base * base;
+
+		// check if the ray is height to the sphere at the
+		// intersection point, or go outside the sphere.
+		if (isZero(perpendicular - squaredRadius) || perpendicular > squaredRadius)
 			return null;
 
-		// Calculate the distance along the ray to the intersection points
-		double distance = Math.sqrt(squaredDistance); // always positive => firstD < sedondD
-		double secondDistance = projection + distance;
-		if (alignZero(secondDistance) <= 0)
+		// Return intersection points, ensuring that only those intersected by the
+		// ray are returned.
+		double inside = Math.sqrt(squaredRadius - perpendicular);
+		double t2 = base + inside;
+		if (alignZero(t2) <= 0)
 			return null;
 
-		double firstDistance = projection - distance;
-		return alignZero(firstDistance) <= 0 //
-				? List.of(ray.getPoint(secondDistance)) //
-				: List.of(ray.getPoint(firstDistance), ray.getPoint(secondDistance));
+		double t1 = base - inside;
+		return alignZero(t1) > 0 ? List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)))
+				: List.of(new GeoPoint(this, ray.getPoint(t2)));
 	}
 }

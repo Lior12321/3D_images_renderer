@@ -1,8 +1,8 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
-
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 import primitives.Point;
 import primitives.Ray;
@@ -89,7 +89,34 @@ public class Polygon extends Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		List<Point> intersections = plane.findIntersections(ray);
+		if (intersections == null)
+			return null; 
+		Point point = intersections.get(0);
+		// TODO: Check the point is inside the shape according to appropriate algorithm
+
+		Vector v = ray.getDir();
+		List<Vector> vectors = new LinkedList<>();
+		// Construct vectors to the vertices
+		for (Point p : this.vertices)
+			vectors.add(p.subtract(point));
+		int vSize = vectors.size() - 1;
+		// Cross product each adjacent pair of vectors and check the share the same sign
+		double normal = alignZero(vectors.get(vSize).crossProduct(vectors.get(0)).dotProduct(v));
+		if (isZero(normal))
+			return null;
+		//boolean sign = normal > 0;
+		for (int i = 0; i < vSize; i++) {
+			normal = alignZero(vectors.get(i).crossProduct(vectors.get(i + 1)).dotProduct(v));
+			if (isZero(normal))
+				return null;
+		}
+		// return null or List.of(new GeoPoint(this,point))
+		return List.of(new GeoPoint(this, point));
 	}
 }

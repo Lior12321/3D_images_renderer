@@ -310,7 +310,7 @@ public class Camera implements Cloneable {
 			String missingRender = "Missing render data";
 			String builder = "builder";
 			String wrongPlaneValues = "the plane parameters nust be positive";
-			
+
 			// View Plane data checks
 			if (isZero(camera.height))
 				throw new MissingResourceException(missingRender, builder, "height = 0");
@@ -337,7 +337,9 @@ public class Camera implements Cloneable {
 				throw new MissingResourceException(missingRender, builder, "imageWriter not defined");
 			if (camera.rayTracer == null)
 				throw new MissingResourceException(missingRender, builder, "rayTracer not defined");
-			
+
+			// we don't really need to do try because we checks it all, but the compiler
+			// doesn't give us to do it without try-catch form
 			try {
 				return (Camera) camera.clone();
 			} catch (CloneNotSupportedException e) {

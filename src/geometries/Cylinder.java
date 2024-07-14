@@ -1,5 +1,7 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.*;
 import primitives.Point;
 
@@ -62,5 +64,11 @@ public class Cylinder extends Tube {
 		Point center = firstCenter.add(cylinderCenterVector.scale(projection));
 		Vector v = p.subtract(center);
 		return v.normalize();
+	}
+	
+	// TODO: check if necessary
+	@Override
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		return null;
 	}
 }

@@ -12,19 +12,41 @@ import primitives.Ray;
  */
 public abstract class Intersectable {
 	/**
-	 * finds intersections between a given ray and objects
+	 * finds all the intersections between a given ray and objects
 	 * 
 	 * @param ray a given ray
 	 * @return a list of points of intersections
 	 */
-	public abstract List<Point> findIntersections(Ray ray);
+	public List<Point> findIntersections(Ray ray) {
+		var geoList = findGeoIntersections(ray);
+		return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
+	}
+
+	/**
+	 * finds all the intersections of the given ray with the shape.
+	 * 
+	 * @param ray the given ray parameter
+	 * @return list of all the intersections points of the ray with the shape.
+	 */
+
+	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+
+	/**
+	 * finds all the intersections of the given ray with the shape. using the helper
+	 * function
+	 * 
+	 * @param ray the given ray parameter
+	 * @return list<GeoPoint> of all the intersections points of the ray with the
+	 *         shape.
+	 */
+	public final List<GeoPoint> findGeoIntersections(Ray ray) {
+		return findGeoIntersectionsHelper(ray);
+	}
 
 	/**
 	 * GeoPoint is a static inner class that associates a Geometry object with a
-	 * specific point in 3D space.
-	 * <p>
-	 * This class is used to represent an intersection point on a geometry along
-	 * with the geometry itself.
+	 * specific point in 3D space. This class is used to represent an intersection
+	 * point on a geometry along with the geometry itself.
 	 * 
 	 * @see Geometry
 	 * @see Point
@@ -38,7 +60,7 @@ public abstract class Intersectable {
 		public Point point;
 
 		/**
-		 * Constructor for GeoPoint
+		 * Parametric constructor for GeoPoint
 		 * 
 		 * @param geometry given geometry
 		 * @param point    given point

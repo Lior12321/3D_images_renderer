@@ -2,8 +2,9 @@ package geometries;
 
 import primitives.Vector;
 
-import java.util.List;
+import static primitives.Util.alignZero;
 
+import java.util.List;
 import primitives.Point;
 import primitives.Ray;
 
@@ -53,8 +54,38 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		// Getting the direction of the ray
+		Vector v = ray.getDir();
+		// Getting the direction of the axis
+		Vector v1 = axis.getDir();
+		// The difference between the head of the ray and the head of the axis
+		Vector deltaP = ray.getHead().subtract(axis.getHead());
+		// Calculating the dot product of the direction of the ray and the direction of
+		// the axis
+		double vv1 = v.dotProduct(v1);
+		// Calculating the dot product of the difference between the head of the ray and
+		// the head of the axis and the direction of the axis
+		double deltaPv1 = deltaP.dotProduct(v1);
+		
+		// Calculating the coefficients of the quadratic equation
+		double a = v.subtract(v1.scale(vv1)).lengthSquared();
+		double b = deltaP.subtract(v1.scale(deltaPv1)).dotProduct(v.subtract(v1.scale(vv1))) * 2;
+		double c = deltaP.subtract(v1.scale(deltaPv1)).lengthSquared() - radius * radius;
+		double delta = alignZero(b * b - 4 * a * c);
+		// If the delta is negative, there are no intersections
+		if (delta < 0)
+			return null;
+		// Calculating the intersection points
+		double t1 = alignZero((-b + Math.sqrt(delta)) / (2 * a));
+		double t2 = alignZero((-b - Math.sqrt(delta)) / (2 * a));
+		// If both intersection points are negative, there are no intersections
+		if (t1 <= 0 && t2 <= 0)
+			return null;
+		// If both intersection points are positive, return both intersection points
+		if (t1 > 0 && t2 > 0)
+			return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
+		// If only one of the intersection points is positive, return the positive one
+		return t1 > 0 ? List.of(new GeoPoint(this, ray.getPoint(t1))) : List.of(new GeoPoint(this, ray.getPoint(t2)));
 	}
 }

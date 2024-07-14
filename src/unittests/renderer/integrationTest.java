@@ -77,7 +77,7 @@ class IntegrationTest {
 
 		// TC03: Ten intersection points
 		sphere = new Sphere(new Point(0, 0, -2), 2);
-		assertIntersectionCount(10, camera1, sphere, 3, 3);
+		assertIntersectionCount(10, camera2, sphere, 3, 3);
 
 		// TC04: Nine intersection points
 		sphere = new Sphere(Point.ZERO, 4);
