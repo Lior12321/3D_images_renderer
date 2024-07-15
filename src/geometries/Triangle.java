@@ -77,11 +77,11 @@ public class Triangle extends Polygon {
 
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-	    List<Point> intersections = findIntersections(ray);
-	    if (intersections == null)
-	        return null;
-	    Point point = intersections.get(0);
-	    // we check if the point is inside the triangle in the findIntersections method
-	    return List.of(new GeoPoint(this, point));
+		List<Point> intersections = findIntersections(ray);
+		if (intersections == null)
+			return null;
+		Point point = intersections.get(0);
+		// we check if the point is inside the triangle in the findIntersections method
+		return List.of(new GeoPoint(this, point));
 	}
 }

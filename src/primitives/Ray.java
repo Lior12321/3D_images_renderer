@@ -87,10 +87,10 @@ public class Ray {
 	}
 
 	/**
-	 * Returns the closest GeoPoint along the ray.
+	 * finds the closest GeoPoint to the ray's origin point and returns it
 	 * 
-	 * @param points GeoPoints to check
-	 * @return closest GeoPoint
+	 * @param intersections list of GeoPoints to check
+	 * @return the closest GeoPoint or null if the list is empty
 	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
 		GeoPoint closest = null;

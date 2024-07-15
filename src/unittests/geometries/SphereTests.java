@@ -19,8 +19,11 @@ import primitives.Vector;
  * @author Lior &amp; Asaf
  */
 public class SphereTests {
+	/** A point with (1, 0, 0) coordinates */
 	private final Point p100 = new Point(1, 0, 0);
+	/** A vector with (1, 0, 0) coordinates */
 	private final Vector v100 = new Vector(1, 0, 0);
+	/** A vector with (0, 1, 0) coordinates */
 	private final Vector v010 = new Vector(0, 1, 0);
 
 	/**

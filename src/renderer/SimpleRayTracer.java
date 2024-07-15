@@ -30,8 +30,8 @@ public class SimpleRayTracer extends RayTracerBase {
 	}
 
 	/**
-	 * Calculates the color at a given point of intersection in the scene.
-	 * This method computes the resultant color at a specified geometric point of
+	 * Calculates the color at a given point of intersection in the scene. This
+	 * method computes the resultant color at a specified geometric point of
 	 * intersection by considering the scene's ambient light and the emission of the
 	 * geometry at that point.
 	 * 

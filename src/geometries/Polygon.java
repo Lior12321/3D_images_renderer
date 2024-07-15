@@ -96,7 +96,7 @@ public class Polygon extends Geometry {
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		List<Point> intersections = plane.findIntersections(ray);
 		if (intersections == null)
-			return null; 
+			return null;
 		Point point = intersections.get(0);
 		// TODO: Check the point is inside the shape according to appropriate algorithm
 
@@ -110,7 +110,7 @@ public class Polygon extends Geometry {
 		double normal = alignZero(vectors.get(vSize).crossProduct(vectors.get(0)).dotProduct(v));
 		if (isZero(normal))
 			return null;
-		//boolean sign = normal > 0;
+		// boolean sign = normal > 0;
 		for (int i = 0; i < vSize; i++) {
 			normal = alignZero(vectors.get(i).crossProduct(vectors.get(i + 1)).dotProduct(v));
 			if (isZero(normal))

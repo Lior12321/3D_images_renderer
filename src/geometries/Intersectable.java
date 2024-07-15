@@ -28,7 +28,6 @@ public abstract class Intersectable {
 	 * @param ray the given ray parameter
 	 * @return list of all the intersections points of the ray with the shape.
 	 */
-
 	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
 	/**
@@ -36,8 +35,7 @@ public abstract class Intersectable {
 	 * function
 	 * 
 	 * @param ray the given ray parameter
-	 * @return list<GeoPoint> of all the intersections points of the ray with the
-	 *         shape.
+	 * @return list of all the intersections points of the ray with the shape.
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
 		return findGeoIntersectionsHelper(ray);

@@ -25,10 +25,10 @@ class IntegrationTest {
 	 * and the given geometry and checks whether it is as expected
 	 * 
 	 * @param expected expected amount of intersections
-	 * @param camera the camera
-	 * @param obj    the geometry to test intersections with
-	 * @param width  the width of the view plane
-	 * @param height the height of the view plane
+	 * @param camera   the camera
+	 * @param obj      the geometry to test intersections with
+	 * @param width    the width of the view plane
+	 * @param height   the height of the view plane
 	 */
 	private void assertIntersectionCount(int expected, Camera camera, Intersectable obj, int width, int height) {
 		int intersectionCount = 0;
@@ -47,11 +47,11 @@ class IntegrationTest {
 	Camera.Builder cameraBuilder = Camera.getBuilder();
 	/** Error message for assertion failures */
 	private final String errorMessage = "ERROR: Wrong intersections number";
-	// * ImageWriter example */
+	/** ImageWriter example */
 	private final ImageWriter imageWriter = new ImageWriter("base render test", 500, 800);
-	// * Scene example */
+	/** Scene example */
 	private final Scene scene = new Scene("test scene");
-	// * SimpleRayTracer example */
+	/** SimpleRayTracer example */
 	private final SimpleRayTracer rayTracer = new SimpleRayTracer(scene);
 
 	/**
@@ -64,8 +64,7 @@ class IntegrationTest {
 		var camera1 = cameraBuilder.setVpSize(3, 3).setVpDistance(1).setDirection(nv001, v010).setLocation(Point.ZERO)
 				.setImageWriter(imageWriter).setRayTracer(rayTracer).build();
 		var camera2 = cameraBuilder.setLocation(new Point(0, 0, 0.5)).build();
-		
-		
+
 		// TC01: Two intersection points
 		Sphere sphere = new Sphere(new Point(0, 0, -3), 1);
 
@@ -93,8 +92,9 @@ class IntegrationTest {
 	 */
 	@Test
 	void planeTest() {
-		var camera = cameraBuilder.setVpSize(3, 3).setVpDistance(1).setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
-				.setLocation(Point.ZERO).setImageWriter(imageWriter).setRayTracer(rayTracer).build();
+		var camera = cameraBuilder.setVpSize(3, 3).setVpDistance(1)
+				.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0)).setLocation(Point.ZERO)
+				.setImageWriter(imageWriter).setRayTracer(rayTracer).build();
 		final Point np003 = new Point(0, 0, -3);
 
 		// TC01: Nine intersection points
@@ -116,8 +116,9 @@ class IntegrationTest {
 	 */
 	@Test
 	void triangleTest() {
-		var camera = cameraBuilder.setVpSize(3, 3).setVpDistance(1).setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
-				.setLocation(Point.ZERO).setImageWriter(imageWriter).setRayTracer(rayTracer).build();
+		var camera = cameraBuilder.setVpSize(3, 3).setVpDistance(1)
+				.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0)).setLocation(Point.ZERO)
+				.setImageWriter(imageWriter).setRayTracer(rayTracer).build();
 
 		final Point p112 = new Point(1, -1, -2);
 		final Point np112 = new Point(-1, -1, -2);

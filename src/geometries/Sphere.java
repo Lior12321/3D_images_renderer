@@ -45,7 +45,8 @@ public class Sphere extends RadialGeometry {
 		if (head.equals(center))
 			return List.of(new GeoPoint(this, ray.getPoint(radius)));
 
-		// Identify the hypotenuse, base, and perpendicular of the triangle formed by the ray's
+		// Identify the hypotenuse, base, and perpendicular of the triangle formed by
+		// the ray's
 		// starting point, the sphere's center, and the intersection point of the ray
 		// with the perpendicular line that pass through the sphere's center.
 		Vector hypotenuse = center.subtract(head);

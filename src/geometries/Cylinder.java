@@ -65,7 +65,7 @@ public class Cylinder extends Tube {
 		Vector v = p.subtract(center);
 		return v.normalize();
 	}
-	
+
 	// TODO: check if necessary
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {

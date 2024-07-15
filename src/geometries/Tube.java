@@ -67,7 +67,7 @@ public class Tube extends RadialGeometry {
 		// Calculating the dot product of the difference between the head of the ray and
 		// the head of the axis and the direction of the axis
 		double deltaPv1 = deltaP.dotProduct(v1);
-		
+
 		// Calculating the coefficients of the quadratic equation
 		double a = v.subtract(v1.scale(vv1)).lengthSquared();
 		double b = deltaP.subtract(v1.scale(deltaPv1)).dotProduct(v.subtract(v1.scale(vv1))) * 2;
