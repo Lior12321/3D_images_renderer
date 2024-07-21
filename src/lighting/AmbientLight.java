@@ -8,6 +8,7 @@ import primitives.Double3;
  * source that affects all objects equally, without direction. extends Light
  * class
  * 
+ * @see Light
  * @author Lior &amp; Asaf
  */
 public class AmbientLight extends Light {

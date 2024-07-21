@@ -7,8 +7,11 @@ import primitives.Vector;
 /**
  * Class representing a directional light in a scene. A directional light is a
  * light source that affects all objects equally, with a specific direction.
+ * 
+ * @see Light
+ * @author Lior &amp; Asaf
  */
-public class DirectionalLight extends Light implements LightSource{
+public class DirectionalLight extends Light implements LightSource {
 
 	/** The direction of the light */
 	final private Vector direction;

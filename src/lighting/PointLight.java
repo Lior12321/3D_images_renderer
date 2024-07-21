@@ -4,6 +4,14 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * Class representing a point light in a scene. A point light is a light source
+ * that emits light from a single point in all directions.
+ * 
+ * @see Light
+ * @see LightSource
+ * @author Lior &amp; Asaf
+ */
 public class PointLight extends Light implements LightSource {
 
 	/** The position of the light */

@@ -4,6 +4,13 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * Class representing a spot light in a scene. A spot light is a light source
+ * that emits light from a single point in a specific direction.
+ * 
+ * @see PointLight
+ * @author Lior &amp; Asaf
+ */
 public class SpotLight extends PointLight {
 
 	/** The direction of the light */

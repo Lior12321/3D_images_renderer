@@ -8,6 +8,8 @@ import primitives.Point;
 /**
  * Represents a cylinder in 3D space. A cylinder is defined by its central axis,
  * radius, and height.
+ * 
+ * @author Lior &amp; Asaf
  */
 public class Cylinder extends Tube {
 	/**
