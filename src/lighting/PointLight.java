@@ -24,8 +24,7 @@ public class PointLight extends Light implements LightSource {
 	private double kQ = 0.0;
 
 	/**
-	 * Constructor for PointLight class
-	 * using the constructor from the Light class
+	 * Constructor for PointLight class using the constructor from the Light class
 	 * 
 	 * @param intensity the intensity of the light
 	 * @param position  the position of the light
@@ -76,6 +75,6 @@ public class PointLight extends Light implements LightSource {
 
 	@Override
 	public Vector getL(Point p) {
-		return this.position.subtract(p).normalize();
+		return p.subtract(this.position).normalize();
 	}
 }

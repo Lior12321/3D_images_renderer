@@ -7,8 +7,8 @@ import primitives.Vector;
 
 /**
  * Abstract class representing a geometry in a scene. A geometry is a shape that
- * can be intersected by a ray in the scene.
- * geometry shape has a emission color and material kind.
+ * can be intersected by a ray in the scene. geometry shape has a emission color
+ * and material kind.
  * 
  * @author Lior &amp; Asaf
  */
@@ -19,7 +19,7 @@ public abstract class Geometry extends Intersectable {
 
 	/** The material of the geometry. */
 	private Material material = new Material();
-	
+
 	/**
 	 * Returns the normal vector to the geometry shape at the specified point.
 	 * 
@@ -36,7 +36,7 @@ public abstract class Geometry extends Intersectable {
 	public Color getEmission() {
 		return emission;
 	}
-	
+
 	/**
 	 * Returns the material of the geometry.
 	 * 
@@ -56,7 +56,7 @@ public abstract class Geometry extends Intersectable {
 		emission = c;
 		return this;
 	}
-	
+
 	/**
 	 * Sets the geometry's material.
 	 * 

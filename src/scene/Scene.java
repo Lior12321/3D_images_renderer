@@ -28,7 +28,8 @@ public class Scene {
 	public Geometries geometries = new Geometries();
 
 	/** The lights in the scene */
-	public List<LightSource> lights = new java.util.LinkedList<>(); 
+	public List<LightSource> lights = new java.util.LinkedList<>();
+
 	/**
 	 * Constructs a new Scene with the given name.
 	 * 
@@ -72,7 +73,7 @@ public class Scene {
 		this.geometries = geometries;
 		return this;
 	}
-	
+
 	/**
 	 * Adds a light to the scene.
 	 * 

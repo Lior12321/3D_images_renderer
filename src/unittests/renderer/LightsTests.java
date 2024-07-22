@@ -143,28 +143,61 @@ public class LightsTests {
 				.setKl(0.001).setKq(0.0001));
 
 		camera2.setImageWriter(new ImageWriter("lightTrianglesSpot", 500, 500)).build().renderImage().writeToImage();
+		// Debugging:
+//		camera2.setLocation(new Point(10, 0, 1000)).setImageWriter(new ImageWriter("lightTrianglesSpotDebug", 1, 1))
+//				.build() //
+//				.renderImage() //
+//				.writeToImage();
+
+	}
+
+	/**
+	 * @Test public void sphereMultyLights() { final Color sphereLightColor2 = new
+	 *       Color(255, 255, 0); // yellow final Point sphereLightPosition2 = new
+	 *       Point(0, 0, 25); final Vector sphereLightDirection2 = new Vector(1, 1,
+	 *       -10);
+	 * 
+	 *       scene1.geometries.add(sphere); scene1.lights.add(new
+	 *       DirectionalLight(sphereLightColor, sphereLightDirection));
+	 *       scene1.lights.add(new PointLight(sphereLightColor,
+	 *       sphereLightPosition).setKl(0.001).setKq(0.0002)); scene1.lights.add(new
+	 *       SpotLight(sphereLightColor, sphereLightPosition,
+	 *       sphereLightDirection).setKl(0.001).setKq(0.0001));
+	 * 
+	 *       camera1.setImageWriter(new ImageWriter("lightSphereMultyLights", 500,
+	 *       500)).build().renderImage().writeToImage(); }
+	 **/
+
+	/** Produce a picture of a sphere lighted by a spotlight */
+	@Test
+	public void sphereLights() {
+		scene1.geometries.add(sphere);
+		scene1.lights.add(new SpotLight(new Color(0, 255, 0), new Point(-40, -40, 25), new Vector(1, 1, -0.5))
+				.setKl(0.0001).setKq(0.00000001));
+		scene1.lights.add(new PointLight(new Color(255, 255, 0), new Point(80, 80, 0)).setKl(0.0003).setKq(0.00003));
+		scene1.lights.add(new DirectionalLight(new Color(255, 0, 0), new Vector(10, -5, 5)));
+		camera1.setImageWriter(new ImageWriter("SphereLights", 500, 500)).build().renderImage().writeToImage(); //
 	}
 
 	/** Produce a picture of a sphere lighted by a narrow spotlight */
 	/**
-	@Test
-	public void sphereSpotSharp() {
-		scene1.geometries.add(sphere);
-		scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5)).setKl(0.001)
-				.setKq(0.00004).setNarrowBeam(10));
-
-		camera1.setImageWriter(new ImageWriter("lightSphereSpotSharp", 500, 500)).build().renderImage().writeToImage();
-	}**/
+	 * @Test public void sphereSpotSharp() { scene1.geometries.add(sphere);
+	 *       scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition,
+	 *       new Vector(1, 1, -0.5)).setKl(0.001)
+	 *       .setKq(0.00004).setNarrowBeam(10));
+	 * 
+	 *       camera1.setImageWriter(new ImageWriter("lightSphereSpotSharp", 500,
+	 *       500)).build().renderImage().writeToImage(); }
+	 **/
 
 	/** Produce a picture of two triangles lighted by a narrow spotlight */
 	/**
-	@Test
-	public void trianglesSpotSharp() {
-		scene2.geometries.add(triangle1, triangle2);
-		scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)
-				.setKl(0.001).setKq(0.00004).setNarrowBeam(10));
-
-		camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500, 500)).build().renderImage()
-				.writeToImage();
-	}**/
+	 * @Test public void trianglesSpotSharp() { scene2.geometries.add(triangle1,
+	 *       triangle2); scene2.lights.add(new SpotLight(trianglesLightColor,
+	 *       trianglesLightPosition, trianglesLightDirection)
+	 *       .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+	 * 
+	 *       camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500,
+	 *       500)).build().renderImage() .writeToImage(); }
+	 **/
 }

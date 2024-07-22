@@ -1,8 +1,8 @@
 package primitives;
 
 /**
- * Class representing a material with diffuse and specular reflection coefficients
- * and shininess.
+ * Class representing a material with diffuse and specular reflection
+ * coefficients and shininess.
  * 
  * @author Lior &amp Asaf
  */
@@ -61,7 +61,7 @@ public class Material {
 		this.kS = new Double3(kS);
 		return this;
 	}
-	
+
 	/**
 	 * Sets the shininess of the material.
 	 * 
@@ -70,7 +70,7 @@ public class Material {
 	 */
 	public Material setShininess(int nShininess) {
 		this.nShininess = nShininess;
-        return this;
+		return this;
 	}
 
 }

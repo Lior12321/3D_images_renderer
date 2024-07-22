@@ -17,8 +17,8 @@ public interface LightSource {
 	 * @return the intensity of the light at the given point
 	 */
 	public Color getIntensity(Point p);
-	//getIntensity
-	
+	// getIntensity
+
 	/**
 	 * Returns the vector from the light source to a given point
 	 * 

@@ -17,16 +17,15 @@ public class SpotLight extends PointLight {
 	final private Vector direction;
 
 	/**
-	 * Constructor for SpotLight class
-	 * using the constructor from the PointLight
+	 * Constructor for SpotLight class using the constructor from the PointLight
 	 * 
 	 * @param intensity the intensity of the light
-	 * @param position the position of the light
+	 * @param position  the position of the light
 	 * @param direction the direction of the light
 	 */
 	public SpotLight(Color intensity, Point position, Vector direction) {
 		super(intensity, position);
-		this.direction = direction;
+		this.direction = direction.normalize();
 	}
 
 	/**
@@ -63,11 +62,6 @@ public class SpotLight extends PointLight {
 	public Color getIntensity(Point p) {
 		var dirL = direction.dotProduct(getL(p));
 		return dirL <= 0 ? Color.BLACK : super.getIntensity(p).scale(dirL);
-	}
-
-	@Override
-	public Vector getL(Point p) {
-		return super.getL(p);
 	}
 
 }

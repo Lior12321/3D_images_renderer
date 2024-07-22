@@ -20,8 +20,7 @@ public class RenderTests {
 	private final Scene scene = new Scene("Test scene");
 	/** Camera builder of the tests */
 	private final Camera.Builder camera = Camera.getBuilder().setRayTracer(new SimpleRayTracer(scene))
-			.setLocation(Point.ZERO).setDirection(Vector.Z, Vector.Y).setVpDistance(100)
-			.setVpSize(500, 500);
+			.setLocation(Point.ZERO).setDirection(Vector.Z, Vector.Y).setVpDistance(100).setVpSize(500, 500);
 
 	/**
 	 * Produce a scene with basic 3D model and render it into a png image with a
