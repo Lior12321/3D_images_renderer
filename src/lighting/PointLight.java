@@ -25,6 +25,7 @@ public class PointLight extends Light implements LightSource {
 
 	/**
 	 * Constructor for PointLight class
+	 * using the constructor from the Light class
 	 * 
 	 * @param intensity the intensity of the light
 	 * @param position  the position of the light
@@ -40,7 +41,7 @@ public class PointLight extends Light implements LightSource {
 	 * @param kC the constant attenuation coefficient
 	 * @return this PointLight object
 	 */
-	public PointLight setKC(double kC) {
+	public PointLight setKc(double kC) {
 		this.kC = kC;
 		return this;
 	}
@@ -51,7 +52,7 @@ public class PointLight extends Light implements LightSource {
 	 * @param kL the linear attenuation coefficient
 	 * @return this PointLight object
 	 */
-	public PointLight setKL(double kL) {
+	public PointLight setKl(double kL) {
 		this.kL = kL;
 		return this;
 	}
@@ -62,7 +63,7 @@ public class PointLight extends Light implements LightSource {
 	 * @param kQ the quadratic attenuation coefficient
 	 * @return this PointLight object
 	 */
-	public PointLight setKQ(double kQ) {
+	public PointLight setKq(double kQ) {
 		this.kQ = kQ;
 		return this;
 	}

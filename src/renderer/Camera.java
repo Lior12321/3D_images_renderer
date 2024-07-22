@@ -212,7 +212,7 @@ public class Camera implements Cloneable {
 	}
 
 	/**
-	 * Builder class for constructing a Camera object.
+	 * Builder inner class for constructing a Camera object.
 	 * 
 	 * @author Lior &amp; Asaf
 	 */

@@ -18,6 +18,7 @@ public class DirectionalLight extends Light implements LightSource {
 
 	/**
 	 * Constructor for DirectionalLight class
+	 * using the constructor from the Light class
 	 * 
 	 * @param intensity the intensity of the light
 	 * @param direction the direction of the light
@@ -34,8 +35,7 @@ public class DirectionalLight extends Light implements LightSource {
 
 	@Override
 	public Vector getL(Point p) {
-		// TODO Auto-generated method stub
-		return null;
+		return direction.normalize();
 	}
 
 }

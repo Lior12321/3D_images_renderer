@@ -16,6 +16,14 @@ public class SpotLight extends PointLight {
 	/** The direction of the light */
 	final private Vector direction;
 
+	/**
+	 * Constructor for SpotLight class
+	 * using the constructor from the PointLight
+	 * 
+	 * @param intensity the intensity of the light
+	 * @param position the position of the light
+	 * @param direction the direction of the light
+	 */
 	public SpotLight(Color intensity, Point position, Vector direction) {
 		super(intensity, position);
 		this.direction = direction;
@@ -27,8 +35,8 @@ public class SpotLight extends PointLight {
 	 * @param kC the constant attenuation coefficient
 	 * @return this SpotLight object
 	 */
-	public SpotLight setKC(double kC) {
-		return (SpotLight) super.setKC(kC);
+	public SpotLight setKc(double kC) {
+		return (SpotLight) super.setKc(kC);
 	}
 
 	/**
@@ -37,8 +45,8 @@ public class SpotLight extends PointLight {
 	 * @param kL the linear attenuation coefficient
 	 * @return this SpotLight object
 	 */
-	public SpotLight setKL(double kL) {
-		return (SpotLight) super.setKL(kL);
+	public SpotLight setKl(double kL) {
+		return (SpotLight) super.setKl(kL);
 	}
 
 	/**
@@ -47,8 +55,8 @@ public class SpotLight extends PointLight {
 	 * @param kQ the quadratic attenuation coefficient
 	 * @return this SpotLight object
 	 */
-	public SpotLight setKQ(double kQ) {
-		return (SpotLight) super.setKQ(kQ);
+	public SpotLight setKq(double kQ) {
+		return (SpotLight) super.setKq(kQ);
 	}
 
 	@Override

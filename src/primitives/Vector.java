@@ -9,6 +9,12 @@ package primitives;
  */
 public class Vector extends Point {
 
+	/** Vector in Y axis */
+	public static final Vector Y = new Vector(0, 1, 0);
+	
+	/** Negative Vector in Z axis */
+	public static final Vector Z = new Vector(0, 0, -1);
+	
 	/**
 	 * Constructs a new Vector with the specified coordinates.
 	 *
