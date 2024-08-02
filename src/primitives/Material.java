@@ -4,7 +4,7 @@ package primitives;
  * Class representing a material with diffuse and specular reflection
  * coefficients and shininess.
  * 
- * @author Lior &amp Asaf
+ * @author Lior &amp; Asaf
  */
 public class Material {
 	/** The diffuse reflection coefficient of the material */

@@ -43,7 +43,8 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * 
 	 * @param intersection the GeoPoint representing the intersection point and its
 	 *                     associated geometry
-	 * @return the calculated color at the given intersection point
+	 * @param ray          the ray that intersects the geometry
+	 * @return the calculated color at the given intersection
 	 */
 	private Color calcColor(GeoPoint intersection, Ray ray) {
 		return scene.ambientLight.getIntensity().add(calcLocalEffects(intersection, ray));

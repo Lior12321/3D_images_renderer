@@ -168,7 +168,8 @@ public class LightsTests {
 		scene2.geometries.add(triangle1, triangle2);
 		scene2.lights.add(new SpotLight(new Color(400, 600, 0), new Point(-40, -40, 25), new Vector(1, 1, -0.5))
 				.setKl(0.001).setKq(0.000001));
-		scene2.lights.add(new PointLight(new Color(400, 500, 600), new Point(-10, -100, -200)).setKl(0.0001).setKq(0.0015));
+		scene2.lights
+				.add(new PointLight(new Color(400, 500, 600), new Point(-10, -100, -200)).setKl(0.0001).setKq(0.0015));
 		scene2.lights.add(new DirectionalLight(new Color(150, 150, 600), new Vector(-6, -10, -10)));
 
 		camera2.setImageWriter(new ImageWriter("TriangleMultyLights", 500, 500)).build().renderImage().writeToImage(); //
