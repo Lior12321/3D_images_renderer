@@ -11,15 +11,13 @@ import java.util.List;
  * @author Lior &amp; Asaf
  */
 public class Ray {
+	/** The constant value used to determine the accuracy of the calculations. */
+	public static final double DELTA = 0.00001;
 
-	/**
-	 * The starting point of the ray.
-	 */
+	/** The starting point of the ray. */
 	private final Point head;
 
-	/**
-	 * The direction vector of the ray.
-	 */
+	/** The direction vector of the ray. */
 	protected final Vector direction;
 
 	/**
@@ -31,6 +29,24 @@ public class Ray {
 	public Ray(Point head, Vector direction) {
 		this.head = head;
 		this.direction = direction.normalize();
+	}
+
+	/**
+	 * constructor for ray that gets a normal vector. It move the ray's origin a
+	 * short distance in the normal's direction.
+	 * 
+	 * @param head      the original point
+	 * @param direction the direction vector
+	 * @param normal    the normal along which to move the origin point
+	 */
+	public Ray(Point head, Vector direction, Vector normal) {
+		this.direction = direction.normalize();
+		double res = this.direction.dotProduct(normal);
+
+		if (isZero(res))
+			this.head = head;
+		else
+			this.head = head.add(normal.scale(alignZero(res) < 0 ? -DELTA : DELTA));
 	}
 
 	// getters:
@@ -93,6 +109,8 @@ public class Ray {
 	 * @return the closest GeoPoint or null if the list is empty
 	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
+		if (intersections == null)
+			return null;
 		GeoPoint closest = null;
 		double minDistance = Double.POSITIVE_INFINITY;
 		double calcDistance;

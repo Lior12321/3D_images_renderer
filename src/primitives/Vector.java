@@ -130,4 +130,15 @@ public class Vector extends Point {
 	public Vector normalize() {
 		return scale(1 / length());
 	}
+
+	/**
+	 * Returns the mirror image of a vector relative to the normal
+	 * 
+	 * @param n  the normal
+	 * @param nl dot product of the vector to be mirrored and the normal
+	 * @return the resulting vector
+	 */
+	public Vector mirror(Vector n, double nl) {
+		return this.subtract(n.scale(nl * 2));
+	}
 }
