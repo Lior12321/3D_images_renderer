@@ -23,23 +23,36 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * finds all the intersections of the given ray with the shape.
-	 * 
-	 * @param ray the given ray parameter
-	 * @return list of all the intersections points of the ray with the shape.
-	 */
-	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-
-	/**
-	 * finds all the intersections of the given ray with the shape. using the helper
+	 * find intersections of the given ray with the shapes. using the helper
 	 * function
 	 * 
-	 * @param ray the given ray parameter
+	 * @param ray the given ray parameter to find the intersections with
 	 * @return list of all the intersections points of the ray with the shape.
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
-		return findGeoIntersectionsHelper(ray);
+		return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
 	}
+
+	/**
+	 * find intersections of the given ray with the shapes.
+	 * returns only the intersections that are closer than the given maximum
+	 * 
+	 * @param ray         the given ray parameter to find the intersections with
+	 * @param maxDistance the maximum distance to find the intersections
+	 * @return list of all the intersections points of the ray with the shape.
+	 */
+	public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+		return findGeoIntersectionsHelper(ray, maxDistance);
+	}
+
+	/**
+	 * find intersections of the given ray with the shapes.
+	 * returns only the intersections that are closer than the given maximum
+	 * 
+	 * @param ray the given ray parameter
+	 * @return list of all the intersections points of the ray with the shape.
+	 */
+	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
 	/**
 	 * GeoPoint is a static inner class that associates a Geometry object with a

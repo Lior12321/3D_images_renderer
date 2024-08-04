@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -84,4 +85,24 @@ public class PolygonTests {
 					"Polygon's normal is not orthogonal to one of the edges");
 	}
 
+	/**
+	 * tests {@link geometries.Polygon#findGeoIntersectionsHelper(primitives.Ray, double)}
+	 */
+	@Test
+	void testFindGeoIntersectionsDistance() {
+		Polygon rectangle = new Polygon(new Point(1, 0, 0), new Point(-2, 0, -2), new Point(0, 0, 2),
+				new Point(2, 0, 2));
+		Ray ray = new Ray(new Point(0, 2, 0), new Vector(0, -1, 0));
+		// ================= Equivalence Partitions Tests ===========================
+		// TC01: the rectangle is not too far
+		assertEquals(1, rectangle.findGeoIntersections(ray, 10).size());
+		
+		// TC02: the rectangle is too far
+		assertNull(rectangle.findGeoIntersections(ray, 1));
+		
+		// ================= BVA Tests ===========================
+		// TC03: the intersection is exactly at the max distance (0 points)
+		assertNull(rectangle.findGeoIntersections(ray, 2));
+
+	}
 }

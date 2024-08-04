@@ -134,4 +134,45 @@ public class SphereTests {
 		assertNull(sphere.findIntersections(new Ray(new Point(1, 2, 0), v100)), //
 				"There shouldn't be any intersections");
 	}
+
+	/**
+	 * tests {@link geometries.Sphere#findGeoIntersectionsHelper(primitives.Ray, double)}
+	 */
+	@Test
+	void testFindGeoIntersectionsDistance() {
+		Sphere sphere = new Sphere(new Point(50, 0, 0), 50d);
+		Ray rayFromInside = new Ray(new Point(10, 0, 0), new Vector(1, 0, 0));
+		Ray rayFromOutside = new Ray(new Point(-10, 0, 0), new Vector(1, 0, 0));
+
+		// ================= Equivalence Partitions Tests ===========================
+		// **** Group: ray starts outside
+		// TC01: both point on the sphere are not too far (2 points)
+		assertEquals(2, sphere.findGeoIntersections(rayFromOutside, 200).size());
+
+		// TC02: one point is too far and the other is not (1 points)
+		assertEquals(1, sphere.findGeoIntersections(rayFromOutside, 20).size());
+
+		// TC03: both points are too far (0 points)
+		assertNull(sphere.findGeoIntersections(rayFromOutside, 1));
+
+		// **** Group: ray starts inside
+		// TC04: the point is not too far (1 points)
+		assertEquals(1, sphere.findGeoIntersections(rayFromInside, 200).size());
+
+		// TC05: the point is too far (0 points)
+		assertNull(sphere.findGeoIntersections(rayFromInside, 1));
+
+		// ================= BVA Tests ===========================
+		// ****Group: ray starts outside
+		// TC06: the first intersections is exactly at the max distance (0 points)
+		assertNull(sphere.findGeoIntersections(rayFromOutside, 10));
+
+		// TC07: the second intersections is exactly at the max distance (1 points)
+		assertEquals(1, sphere.findGeoIntersections(rayFromOutside, 110).size());
+
+		// **** Group: ray starts inside
+		// TC08: the intersection is exactly at the max distance (0 points)
+		assertNull(sphere.findGeoIntersections(rayFromInside, 40));
+
+	}
 }

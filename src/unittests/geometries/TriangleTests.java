@@ -80,4 +80,24 @@ public class TriangleTests {
 		assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, -1, 0.5))),
 				"ERROR: findIntersections() did not return null");
 	}
+
+	/**
+	 * tests {@link geometries.Triangle#findGeoIntersectionsHelper(primitives.Ray, double)}
+	 */
+	@Test
+	void testFindGeoIntersectionsDistance() {
+		Triangle triangle = new Triangle(new Point(1, 0, 0), new Point(-1, 0, -1), new Point(0, 0, 1));
+		Ray ray = new Ray(new Point(0, 2, 0), new Vector(0, -1, 0));
+		// ================= Equivalence Partitions Tests ===========================
+		// TC01: the triangle is not too far
+		assertEquals(1, triangle.findGeoIntersections(ray, 10).size());
+
+		// TC02: the triangle is too far
+		assertNull(triangle.findGeoIntersections(ray, 1));
+
+		// ================= BVA Tests ===========================
+		// TC03: the intersection is exactly at the max distance (0 points)
+		assertNull(triangle.findGeoIntersections(ray, 2));
+
+	}
 }

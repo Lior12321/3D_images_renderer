@@ -37,7 +37,7 @@ public class Sphere extends RadialGeometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		Point head = ray.getHead();
 		Vector dir = ray.getDir();
 
@@ -61,12 +61,17 @@ public class Sphere extends RadialGeometry {
 		// Return intersection points, ensuring that only those intersected by the
 		// ray are returned.
 		double inside = Math.sqrt(squaredRadius - perpendicular);
-		double t2 = base + inside;
-		if (alignZero(t2) <= 0)
+		double t1 = alignZero(base - inside);
+		double t2 = alignZero(base + inside);
+		// check if the intersection point is behind the camera or after the maximum
+		// distance
+		// t1 < t2 so if t2 <=0, also t1 <= 0. (and also in the other direction)
+		if (t2 <= 0 || alignZero(t1 - maxDistance) >= 0)
 			return null;
-
-		double t1 = base - inside;
-		return alignZero(t1) > 0 ? List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)))
+		if (alignZero(t2 - maxDistance) >= 0) //t2 >= maxDistrance so use only t1
+			return t1 > 0 ? List.of(new GeoPoint(this, ray.getPoint(t1))) : null;
+		return t1 > 0 //
+				? List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2))) //
 				: List.of(new GeoPoint(this, ray.getPoint(t2)));
 	}
 }

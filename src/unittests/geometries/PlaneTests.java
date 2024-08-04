@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import primitives.Point;
 import primitives.Ray;
@@ -113,4 +114,27 @@ public class PlaneTests {
 				"ERROR: Wrong number of points, need to return null (ray starts in the same point as the point that is the base of the plane)");
 	}
 
+	/**
+	 * Test method for {@link geometries.Plane#findGeoIntersectionsHelper(primitives.Ray, double)}.
+	 */
+	@Test
+	void testFindGeoIntersectionsDistance() {
+		Plane plane = new Plane(new Point(1, 0, 0), new Point(-2, 0, -2), new Point(0, 0, 2));
+		Ray ray = new Ray(new Point(0, 2, 0), new Vector(0, -1, 0));
+
+		// ================= Equivalence Partitions Tests ===========================
+		// TC01: the plane isn't too far
+		List<GeoPoint> result = plane.findGeoIntersections(ray, 10);
+		assertEquals(1, result.size());
+
+		// TC02: the plane is too far
+		result = plane.findGeoIntersections(ray, 1);
+		assertNull(result);
+
+		// ================= BVA Tests ===========================
+		// TC03: the intersection is exactly at the max distance (0 points)
+		result = plane.findGeoIntersections(ray, 2);
+		assertNull(result);
+
+	}
 }

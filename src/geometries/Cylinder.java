@@ -68,9 +68,8 @@ public class Cylinder extends Tube {
 		return v.normalize();
 	}
 
-	// TODO: check if necessary
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		return null;
 	}
 }

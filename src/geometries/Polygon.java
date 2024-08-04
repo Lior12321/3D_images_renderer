@@ -93,18 +93,17 @@ public class Polygon extends Geometry {
 	}
 
 	@Override
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		List<Point> intersections = plane.findIntersections(ray);
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+		List<GeoPoint> intersections = plane.findGeoIntersections(ray, maxDistance);
 		if (intersections == null)
 			return null;
-		Point point = intersections.get(0);
-		// TODO: Check the point is inside the shape according to appropriate algorithm
-
+		
+		Point p0 = ray.getHead();
 		Vector v = ray.getDir();
 		List<Vector> vectors = new LinkedList<>();
 		// Construct vectors to the vertices
 		for (Point p : this.vertices)
-			vectors.add(p.subtract(point));
+			vectors.add(p.subtract(p0));
 		int vSize = vectors.size() - 1;
 		// Cross product each adjacent pair of vectors and check the share the same sign
 		double normal = alignZero(vectors.get(vSize).crossProduct(vectors.get(0)).dotProduct(v));
@@ -117,6 +116,7 @@ public class Polygon extends Geometry {
 				return null;
 		}
 		// return null or List.of(new GeoPoint(this,point))
-		return List.of(new GeoPoint(this, point));
+		intersections.get(0).geometry = this;
+		return intersections;
 	}
 }
