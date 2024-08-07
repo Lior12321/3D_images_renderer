@@ -82,7 +82,8 @@ public class TriangleTests {
 	}
 
 	/**
-	 * tests {@link geometries.Triangle#findGeoIntersectionsHelper(primitives.Ray, double)}
+	 * tests
+	 * {@link geometries.Triangle#findGeoIntersectionsHelper(primitives.Ray, double)}
 	 */
 	@Test
 	void testFindGeoIntersectionsDistance() {

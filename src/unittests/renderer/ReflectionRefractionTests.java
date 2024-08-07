@@ -92,7 +92,7 @@ public class ReflectionRefractionTests {
 	}
 
 	/**
-	 * Produce a picture of a worm
+	 * Produce a picture of a two larvas
 	 */
 	@Test
 	public void ourPictureTest() {
@@ -100,98 +100,78 @@ public class ReflectionRefractionTests {
 				// first larva body - five spheres
 				// #1
 				new Sphere(new Point(30, -20, -50), 15d).setEmission(new Color(0, 80, 0))
-						.setMaterial(new Material().setKd(0.15).setKs(0.25).setShininess(10).setKt(0.1)),
+						.setMaterial(new Material().setKd(0.15).setKs(0.25).setShininess(10)),
 				// #2
 				new Sphere(new Point(20, 0, -50), 15d).setEmission(new Color(0, 100, 0))
-						.setMaterial(new Material().setKs(0.15).setShininess(10).setKt(0.1)),
+						.setMaterial(new Material().setKs(0.15).setShininess(10)),
 				// #3
 				new Sphere(new Point(0, 15, -50), 15d).setEmission(new Color(0, 120, 0))
-						.setMaterial(new Material().setKs(0.15).setShininess(10).setKt(0.1)),
+						.setMaterial(new Material().setKs(0.15).setShininess(10)),
 				// #4
 				new Sphere(new Point(-25, 15, -50), 15d).setEmission(new Color(0, 140, 0))
-						.setMaterial(new Material().setKs(0.15).setShininess(10).setKt(0.1)),
+						.setMaterial(new Material().setKs(0.15).setShininess(10)),
 				// #5
 				new Sphere(new Point(-50, 10, -50), 15d).setEmission(new Color(0, 160, 0))
-						.setMaterial(new Material().setKs(0.15).setShininess(10).setKt(0.1)),
+						.setMaterial(new Material().setKs(0.15).setShininess(10)),
 
 				// first larva tentacles - two triangles
 				new Triangle(new Point(41, -24.5, -40), new Point(35, -27.5, -41), new Point(35, -23, -25))
-						.setEmission(Color.BLACK).setMaterial(new Material().setKs(0.8).setShininess(60)),
+						.setEmission(Color.BLACK).setMaterial(new Material().setKs(0.8).setKt(0.5).setShininess(60)),
 				new Triangle(new Point(31, -30, -41), new Point(25, -31, -40), new Point(27, -26, -25))
-						.setEmission(Color.BLACK).setMaterial(new Material().setKs(0.8).setShininess(60)),
+						.setEmission(Color.BLACK).setMaterial(new Material().setKs(0.8).setKt(0.5).setShininess(60)),
 
 				// second larva body - five spheres
 				// #1
-				new Sphere(new Point(0, -40, -50), 6d).setEmission(new Color(0, 80, 0))
+				new Sphere(new Point(0, -40, -59), 6d).setEmission(new Color(0, 80, 0))
 						.setMaterial(new Material().setKd(0.05).setKs(0.25).setShininess(5)),
 				// #2
-				new Sphere(new Point(-2, -30, -50), 6d).setEmission(new Color(0, 100, 0))
+				new Sphere(new Point(-2, -30, -59), 6d).setEmission(new Color(0, 100, 0))
 						.setMaterial(new Material().setKd(0.2).setShininess(5)),
 				// #3
-				new Sphere(new Point(-8, -23, -50), 6d).setEmission(new Color(0, 120, 0))
+				new Sphere(new Point(-8, -23, -59), 6d).setEmission(new Color(0, 120, 0))
 						.setMaterial(new Material().setKd(0.2).setShininess(5)),
 				// #4
-				new Sphere(new Point(-15, -18, -50), 6d).setEmission(new Color(0, 140, 0))
+				new Sphere(new Point(-15, -18, -59), 6d).setEmission(new Color(0, 140, 0))
 						.setMaterial(new Material().setKd(0.2).setShininess(5)),
 				// #5
-				new Sphere(new Point(-24, -18, -50), 6d).setEmission(new Color(0, 160, 0))
+				new Sphere(new Point(-24, -18, -59), 6d).setEmission(new Color(0, 160, 0))
 						.setMaterial(new Material().setKd(0.2).setShininess(5)),
 
 				// second larva tentacles - two triangles
-				new Triangle(new Point(3, -42, -46), new Point(1.5, -42, -45), new Point(2, -40, -40))
+				new Triangle(new Point(3, -42, -55), new Point(1.5, -42, -54), new Point(2, -40, -49))
 						.setEmission(Color.BLACK).setMaterial(new Material().setKs(0.8).setShininess(60)),
-				new Triangle(new Point(-1.5, -42, -45), new Point(-3, -42, -46), new Point(-2, -40, -40))
+				new Triangle(new Point(-1.5, -42, -54), new Point(-3, -42, -55), new Point(-2, -40, -49))
 						.setEmission(Color.BLACK).setMaterial(new Material().setKs(0.8).setShininess(60)),
 
 				// surface
-				new Triangle(new Point(-100, -100, -70), new Point(100, -100, -70), new Point(100, 100, -70))
-						.setMaterial(new Material().setKs(0.8).setShininess(60)),
-				new Triangle(new Point(-100, -100, -70), new Point(-100, 100, -70), new Point(100, 100, -70))
-						.setMaterial(new Material().setKs(0.8).setShininess(60)),
+				new Triangle(new Point(-100, -100, -65), new Point(100, -100, -65), new Point(100, 40, -65))
+						.setEmission(new Color(0, 50, 0))
+						.setMaterial(new Material().setKs(0.8).setKt(0.5).setShininess(60)),
+				new Triangle(new Point(-100, -100, -65), new Point(-100, 40, -65), new Point(100, 40, -65))
+						.setEmission(new Color(0, 50, 0))
+						.setMaterial(new Material().setKs(0.8).setKt(0.5).setShininess(60)),
 
 				// mirror to reflect the larvas
-				// new Triangle(new Point(-120, -100, -80), new Point(120, -100, -80), new
-				// Point(0, -180, 50))
-				// .setMaterial(new Material().setKr(10d)).setEmission(new Color(20, 20, 20)),
+				new Triangle(new Point(-100, 40, -65), new Point(100, 40, -65), new Point(0, 140, 250))
+						.setMaterial(new Material().setKr(0.9)).setEmission(new Color(20, 20, 20)));
 
-				new Triangle(new Point(-100, 100, -80), new Point(100, 100, -80), new Point(0, 100, 50))
-						.setMaterial(new Material().setKr(10d)).setEmission(new Color(20, 20, 20)));
-		// new Double3(0.5, 0, 0.4)
-
-		/**
-		 * new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new
-		 * Point(75, 75, -150)) // .setMaterial(new
-		 * Material().setKs(0.8).setShininess(60)), // new Triangle(new Point(-150,
-		 * -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
-		 * .setMaterial(new Material().setKs(0.8).setShininess(60)), // new Sphere(new
-		 * Point(0, 0, -11), 30d) // .setEmission(new Color(BLUE)) // .setMaterial(new
-		 * Material().setKd(0.5).setKs(0.5).setShininess(30)));
-		 **/
-
+		// Adding lights
 		scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.10));
-		scene.lights.add(new DirectionalLight(new Color(500, 500, 0), new Vector(-1, -1, -5)));
-		// scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(-50, 10,
-		// 50)));
+		// The "sun"
+		scene.lights.add(new DirectionalLight(new Color(450, 450, 0), new Vector(-1, -1, -7.5)));
+		// first larva spot
 		scene.lights.add(new SpotLight(new Color(255, 255, 255), new Point(40, -40, 55), new Vector(1, 1, -20))
 				.setKl(4E-10).setKq(2E-50));
+		// second larva spot
 		scene.lights.add(new SpotLight(new Color(255, 255, 255), new Point(0, -50, -15), new Vector(1, -1, -20))
 				.setKl(4E-10).setKq(2E-50));
+		// the "fake sun" on the left top corner, in the last squad of the larva (in
+		// case we need to use all the lights)
+		scene.lights.add(new PointLight(new Color(450, 450, 0), new Point(-57, 10, 30)));
 
-		// new SpotLight(new Color(0, 0, 0), new Point(40, 40, 115), new Vector(0, 0,
-		// -4)) //
-		// .setKl(4E-4).setKq(2E-5));
-
+		// Set the camera
 		cameraBuilder.setLocation(new Point(0, 0, 1300)).setVpDistance(1000).setVpSize(200, 200)
 				.setRayTracer(new SimpleRayTracer(scene));
-		cameraBuilder.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0));
 		cameraBuilder.setImageWriter(new ImageWriter("ourPictureTest", 800, 800)).build().renderImage().writeToImage();
-
-		/*
-		 * cameraBuilder.setLocation(new Point(-500, 0,
-		 * 10000)).setVpDistance(10000).setVpSize(2500, 2500) .setImageWriter(new
-		 * ImageWriter("ourPictureTest", 500,
-		 * 500)).build().renderImage().writeToImage();
-		 */
-
 	}
 }

@@ -68,7 +68,7 @@ public class Sphere extends RadialGeometry {
 		// t1 < t2 so if t2 <=0, also t1 <= 0. (and also in the other direction)
 		if (t2 <= 0 || alignZero(t1 - maxDistance) >= 0)
 			return null;
-		if (alignZero(t2 - maxDistance) >= 0) //t2 >= maxDistrance so use only t1
+		if (alignZero(t2 - maxDistance) >= 0) // t2 >= maxDistrance so use only t1
 			return t1 > 0 ? List.of(new GeoPoint(this, ray.getPoint(t1))) : null;
 		return t1 > 0 //
 				? List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2))) //

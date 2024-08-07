@@ -86,7 +86,8 @@ public class PolygonTests {
 	}
 
 	/**
-	 * tests {@link geometries.Polygon#findGeoIntersectionsHelper(primitives.Ray, double)}
+	 * tests
+	 * {@link geometries.Polygon#findGeoIntersectionsHelper(primitives.Ray, double)}
 	 */
 	@Test
 	void testFindGeoIntersectionsDistance() {
@@ -96,10 +97,10 @@ public class PolygonTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: the rectangle is not too far
 		assertEquals(1, rectangle.findGeoIntersections(ray, 10).size());
-		
+
 		// TC02: the rectangle is too far
 		assertNull(rectangle.findGeoIntersections(ray, 1));
-		
+
 		// ================= BVA Tests ===========================
 		// TC03: the intersection is exactly at the max distance (0 points)
 		assertNull(rectangle.findGeoIntersections(ray, 2));

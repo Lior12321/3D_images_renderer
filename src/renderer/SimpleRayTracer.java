@@ -23,7 +23,7 @@ import scene.Scene;
 public class SimpleRayTracer extends RayTracerBase {
 	/** using to move the point, to not hide itself */
 	private static final double DELTA = 0.1;
-	/** how much transparency rays will be in the image**/
+	/** how much transparency rays will be in the image **/
 	private static final int MAX_CALC_COLOR_LEVEL = 8;
 	/** the limit to the color before it will be black **/
 	private static final double MIN_CALC_COLOR_K = 0.001;
@@ -93,6 +93,7 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * 
 	 * @param intersection the intersection point and its associated geometry
 	 * @param ray          the ray that intersects the geometry
+	 * @param k            the stopping condition of the attenuation coefficient
 	 * @return the calculated color at the given intersection point
 	 */
 	private Color calcLocalEffects(GeoPoint intersection, Ray ray, Double3 k) {
@@ -125,7 +126,7 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * @param ray   the ray that intersects the geometry
 	 * @param level the level of the recursion
 	 * @param k     the stopping condition of the attenuation coefficient
-	 * @return
+	 * @return the global effects of the light that reflect from the geometry
 	 */
 	private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
 		Material material = gp.geometry.getMaterial();
@@ -143,7 +144,7 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * @param kx    the attenuation coefficient
 	 * @param level the level of the recursion
 	 * @param k     the stopping condition of the attenuation coefficient
-	 * @return
+	 * @return the global effect of the light reflection from a geometry
 	 */
 	private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
 		Double3 kkx = kx.product(k.equals(new Double3(MIN_CALC_COLOR_K)) ? Double3.ONE : k);
@@ -152,12 +153,12 @@ public class SimpleRayTracer extends RayTracerBase {
 		GeoPoint gp = findClosestIntersection(ray);
 		return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)).scale(kx);
 	}
-	
+
 	/**
 	 * constructs the refracted ray
 	 * 
 	 * @param gp     the point on the geometry
-	 * @param ray    the ray that intersects the geometry
+	 * @param dir    the direction of the ray
 	 * @param normal the normal to the geometry
 	 * @return the refracted ray
 	 */
@@ -169,7 +170,7 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * constructs the reflected ray
 	 * 
 	 * @param gp     the point on the geometry
-	 * @param ray    the ray that intersects the geometry
+	 * @param dir    the direction of the ray
 	 * @param normal the normal to the geometry
 	 * @return the reflected ray
 	 */
@@ -195,20 +196,18 @@ public class SimpleRayTracer extends RayTracerBase {
 	/**
 	 * Calculate the specular component of the light reflection from a geometry
 	 * 
-	 * @param material the material of the geometry
-	 * @param normal   the normal to the geometry and the point of intersection
-	 * @param l        the vector from the light source to the point of intersection
-	 * @param nl       the dot product of the normal to the geometry and the vector
-	 * @param v        the direction vector of the ray
+	 * @param material     the material of the geometry
+	 * @param normal       the normal to the geometry and the point of intersection
+	 * @param l            the vector from the light source to the point of
+	 *                     intersection
+	 * @param nl           the dot product of the normal to the geometry and the
+	 *                     vector
+	 * @param rayDirection the direction of the ray
 	 * @return the specular component of the light reflection
 	 */
 	private Double3 calcSpecular(Material material, Vector normal, Vector l, double nl, Vector rayDirection) {
 		double vr = rayDirection.dotProduct(l.mirror(normal, nl));
 		return (alignZero(vr) > 0) ? Double3.ZERO : material.kS.scale(Math.pow(-vr, material.nShininess));
-
-		// double minusVR = -alignZero(rayDirection.dotProduct(vr));
-		// return minusVR <= 0 ? Double3.ZERO : material.kS.scale(Math.pow(minusVR,
-		// material.nShininess));
 	}
 
 	/**
@@ -217,6 +216,8 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * @param gp     the intersection point
 	 * @param l      the vector from the light source to the point of intersection
 	 * @param normal the normal to the geometry and the point
+	 * @param light  the light source
+	 * @param nl     the dot product of the normal to the geometry and the vector
 	 * @return true if the point isn't shaded by another geometry in the scene,
 	 *         false otherwise
 	 */
@@ -243,8 +244,9 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * @return the refracted ray
 	 */
 	private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector normal, double nv) {
-		//Vector lightDirection = l.scale(-1);
-		//Ray lightRay = new Ray(gp.point.add(normal.scale(nv < 0 ? DELTA : -DELTA)), lightDirection);
+		// Vector lightDirection = l.scale(-1);
+		// Ray lightRay = new Ray(gp.point.add(normal.scale(nv < 0 ? DELTA : -DELTA)),
+		// lightDirection);
 		Ray lightRay = new Ray(gp.point, l.scale(-1), normal);
 
 		var intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));

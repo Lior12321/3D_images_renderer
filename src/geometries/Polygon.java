@@ -97,7 +97,7 @@ public class Polygon extends Geometry {
 		List<GeoPoint> intersections = plane.findGeoIntersections(ray, maxDistance);
 		if (intersections == null)
 			return null;
-		
+
 		Point p0 = ray.getHead();
 		Vector v = ray.getDir();
 		List<Vector> vectors = new LinkedList<>();

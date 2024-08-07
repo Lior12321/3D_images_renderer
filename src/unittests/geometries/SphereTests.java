@@ -136,7 +136,8 @@ public class SphereTests {
 	}
 
 	/**
-	 * tests {@link geometries.Sphere#findGeoIntersectionsHelper(primitives.Ray, double)}
+	 * tests
+	 * {@link geometries.Sphere#findGeoIntersectionsHelper(primitives.Ray, double)}
 	 */
 	@Test
 	void testFindGeoIntersectionsDistance() {

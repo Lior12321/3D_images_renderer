@@ -115,7 +115,8 @@ public class PlaneTests {
 	}
 
 	/**
-	 * Test method for {@link geometries.Plane#findGeoIntersectionsHelper(primitives.Ray, double)}.
+	 * Test method for
+	 * {@link geometries.Plane#findGeoIntersectionsHelper(primitives.Ray, double)}.
 	 */
 	@Test
 	void testFindGeoIntersectionsDistance() {

@@ -34,8 +34,8 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * find intersections of the given ray with the shapes.
-	 * returns only the intersections that are closer than the given maximum
+	 * find intersections of the given ray with the shapes. returns only the
+	 * intersections that are closer than the given maximum
 	 * 
 	 * @param ray         the given ray parameter to find the intersections with
 	 * @param maxDistance the maximum distance to find the intersections
@@ -46,10 +46,11 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * find intersections of the given ray with the shapes.
-	 * returns only the intersections that are closer than the given maximum
+	 * find intersections of the given ray with the shapes. returns only the
+	 * intersections that are closer than the given maximum
 	 * 
-	 * @param ray the given ray parameter
+	 * @param ray         the given ray parameter
+	 * @param maxDistance the maximum distance to find the intersections
 	 * @return list of all the intersections points of the ray with the shape.
 	 */
 	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
