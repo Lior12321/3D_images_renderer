@@ -21,10 +21,13 @@ import scene.Scene;
  * @author Lior &amp; Asaf
  */
 public class SimpleRayTracer extends RayTracerBase {
-	/** The constant value used to determine the accuracy of the calculations. */
+	/** using to move the point, to not hide itself */
 	private static final double DELTA = 0.1;
-	private static final int MAX_CALC_COLOR_LEVEL = 10;
-	private static final double MIN_CALC_COLOR_K = 0.0001;
+	/** how much transparency rays will be in the image**/
+	private static final int MAX_CALC_COLOR_LEVEL = 8;
+	/** the limit to the color before it will be black **/
+	private static final double MIN_CALC_COLOR_K = 0.001;
+	/** the initial attenuation coefficient (mostly for convenience) **/
 	private static final Double3 INITIAL_K = Double3.ONE;
 
 	/**
@@ -143,16 +146,13 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * @return
 	 */
 	private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
-		Double3 kkx = k.product(kx);
+		Double3 kkx = kx.product(k.equals(new Double3(MIN_CALC_COLOR_K)) ? Double3.ONE : k);
 		if (kkx.lowerThan(MIN_CALC_COLOR_K))
 			return Color.BLACK;
 		GeoPoint gp = findClosestIntersection(ray);
-		if (gp == null)
-			return scene.background.scale(kx);
-		return isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDir())) ? Color.BLACK
-				: calcColor(gp, ray, level - 1, kkx);
+		return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)).scale(kx);
 	}
-
+	
 	/**
 	 * constructs the refracted ray
 	 * 
@@ -243,9 +243,9 @@ public class SimpleRayTracer extends RayTracerBase {
 	 * @return the refracted ray
 	 */
 	private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector normal, double nv) {
-		Vector lightDirection = l.scale(-1);
-		Ray lightRay = new Ray(gp.point.add(normal.scale(nv < 0 ? DELTA : -DELTA)), lightDirection);
-		// Ray lightRay = new Ray(gp.point, normal, l.scale(-1));
+		//Vector lightDirection = l.scale(-1);
+		//Ray lightRay = new Ray(gp.point.add(normal.scale(nv < 0 ? DELTA : -DELTA)), lightDirection);
+		Ray lightRay = new Ray(gp.point, l.scale(-1), normal);
 
 		var intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
 		Double3 ktr = Double3.ONE;
