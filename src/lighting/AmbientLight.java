@@ -12,8 +12,6 @@ import primitives.Double3;
  * @author Lior &amp; Asaf
  */
 public class AmbientLight extends Light {
-	// iA - light intensity according to RGB components (Color)
-	// kA - fill light attenuation coefficient (Double3/ Double)
 
 	/** A constant representing no ambient light */
 	public static final AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
@@ -22,8 +20,8 @@ public class AmbientLight extends Light {
 	 * constructs Ambient light object with a given intensity and attenuation factor
 	 * using the constructor from Light class
 	 * 
-	 * @param iA intensity
-	 * @param kA attenuation factor
+	 * @param iA light intensity according to RGB components
+	 * @param kA fill light attenuation coefficient
 	 */
 	public AmbientLight(Color iA, Double3 kA) {
 		super(iA.scale(kA));
@@ -33,8 +31,8 @@ public class AmbientLight extends Light {
 	 * constructs Ambient light object with a given intensity and attenuation factor
 	 * using the constructor from Light class
 	 * 
-	 * @param iA intensity
-	 * @param kA attenuation factor
+	 * @param iA light intensity according to RGB components
+	 * @param kA fill light attenuation coefficient
 	 */
 	public AmbientLight(Color iA, Double kA) {
 		super(iA.scale(kA));

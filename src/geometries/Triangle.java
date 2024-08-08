@@ -27,59 +27,11 @@ public class Triangle extends Polygon {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		// Find the intersection point with the plane containing the triangle (if there
-		// is one)
-		List<Point> result = plane.findIntersections(ray);
-		// If there is no intersection with the plane, return null
-		if (result == null)
-			return null;
-
-		// Get vertices of the triangle
-		final Point a = vertices.getFirst();
-		final Point b = vertices.get(1);
-		final Point c = vertices.getLast();
-		final Point p = result.getFirst();
-		// Vector normal = plane.getNormal();
-
-		final Vector ab, bc, ac, aq, bq, cq;
-		final double area, alpha, beta, gamma;
-
-		try {
-			ab = b.subtract(a); // a->b
-			bc = c.subtract(b); // b->c
-			ac = c.subtract(a); // a->c
-			aq = p.subtract(a); // a->p
-			bq = p.subtract(b); // b->p
-			cq = p.subtract(c); // c->p
-			// Alpha, beta, and gamma are calculated by the ratio between the respective
-			// triangles and the entire one.
-
-			// Calculate area of the triangle
-			area = ab.crossProduct(ac).length();
-
-			// Calculate baricentric coordinates
-			alpha = ab.crossProduct(aq).length() / area;
-			beta = bc.crossProduct(bq).length() / area;
-			gamma = ac.crossProduct(cq).length() / area;
-
-			if (alignZero(alpha) > 0 && alignZero(beta) > 0 && alignZero(gamma) > 0 && isZero(alpha + beta + gamma - 1))
-				return List.of(p);
-
-		} catch (IllegalArgumentException e) {
-			// Catch illegal argument exceptions that might occur during the calculations
-			return null;
-		}
-
-		// If the intersection point is not inside the triangle, return null
-		return null;
-	}
-
-	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-		var intersections = plane.findGeoIntersectionsHelper(ray, maxDistance);
+		var intersections = plane.findGeoIntersections(ray, maxDistance);
 		if (intersections == null)
 			return null;
+		
 		intersections = List.of(new GeoPoint(this, intersections.get(0).point));
 		// The intersection point is inside the triangle
 		Point rayP0 = ray.getHead();

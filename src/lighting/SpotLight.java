@@ -1,8 +1,7 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
+import static primitives.Util.*;
 
 /**
  * Class representing a spot light in a scene. A spot light is a light source
@@ -14,7 +13,7 @@ import primitives.Vector;
 public class SpotLight extends PointLight {
 
 	/** The direction of the light */
-	final private Vector direction;
+	private final Vector direction;
 
 	/**
 	 * Constructor for SpotLight class using the constructor from the PointLight
@@ -60,7 +59,7 @@ public class SpotLight extends PointLight {
 
 	@Override
 	public Color getIntensity(Point p) {
-		var dirL = direction.dotProduct(getL(p));
+		var dirL = alignZero(direction.dotProduct(getL(p)));
 		return dirL <= 0 ? Color.BLACK : super.getIntensity(p).scale(dirL);
 	}
 

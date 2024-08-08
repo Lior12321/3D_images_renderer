@@ -5,3 +5,7 @@ baricentric
 javadoc
 emission
 png
+specular
+zilberstein
+hypotenuse
+refracted

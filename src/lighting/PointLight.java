@@ -15,7 +15,7 @@ import primitives.Vector;
 public class PointLight extends Light implements LightSource {
 
 	/** The position of the light */
-	protected Point position;
+	protected final Point position;
 	/** The constant attenuation coefficient */
 	private double kC = 1.0;
 	/** The linear attenuation coefficient */

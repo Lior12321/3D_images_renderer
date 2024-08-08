@@ -88,11 +88,6 @@ public class Polygon extends Geometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		return null;
-	}
-
-	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		List<GeoPoint> intersections = plane.findGeoIntersections(ray, maxDistance);
 		if (intersections == null)
@@ -104,9 +99,9 @@ public class Polygon extends Geometry {
 		// Construct vectors to the vertices
 		for (Point p : this.vertices)
 			vectors.add(p.subtract(p0));
-		int vSize = vectors.size() - 1;
+		int vSize = size - 1;
 		// Cross product each adjacent pair of vectors and check the share the same sign
-		double normal = alignZero(vectors.get(vSize).crossProduct(vectors.get(0)).dotProduct(v));
+		double normal = alignZero(vectors.get(vSize).crossProduct(vectors.getFirst()).dotProduct(v));
 		if (isZero(normal))
 			return null;
 		// boolean sign = normal > 0;
@@ -116,7 +111,7 @@ public class Polygon extends Geometry {
 				return null;
 		}
 		// return null or List.of(new GeoPoint(this,point))
-		intersections.get(0).geometry = this;
+		intersections.getFirst().geometry = this;
 		return intersections;
 	}
 }

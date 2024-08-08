@@ -1,7 +1,6 @@
 package primitives;
 
-import static primitives.Util.*;
-import geometries.Intersectable.GeoPoint;
+import static geometries.Intersectable.GeoPoint;
 import java.util.List;
 
 /**
@@ -36,17 +35,12 @@ public class Ray {
 	 * short distance in the normal's direction.
 	 * 
 	 * @param head      the original point
-	 * @param direction the direction vector
+	 * @param direction the direction vector of the ray - <b><i>must be normalized</i></b>
 	 * @param normal    the normal along which to move the origin point
 	 */
 	public Ray(Point head, Vector direction, Vector normal) {
-		this.direction = direction.normalize();
-		double res = this.direction.dotProduct(normal);
-
-		if (isZero(res))
-			this.head = head;
-		else
-			this.head = head.add(normal.scale(alignZero(res) < 0 ? -DELTA : DELTA));
+		this.direction = direction;
+		this.head = head.add(normal.scale(this.direction.dotProduct(normal) < 0 ? -DELTA : DELTA));
 	}
 
 	// getters:
@@ -88,7 +82,11 @@ public class Ray {
 	 * @return the wanted point
 	 */
 	public Point getPoint(double t) {
-		return isZero(t) ? head : head.add(direction.scale(t));
+		try {
+			return head.add(direction.scale(t));
+		} catch (IllegalArgumentException e) {
+			return head;
+		}
 	}
 
 	/**
@@ -111,17 +109,17 @@ public class Ray {
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
 		if (intersections == null)
 			return null;
+
 		GeoPoint closest = null;
 		double minDistance = Double.POSITIVE_INFINITY;
-		double calcDistance;
-
 		for (GeoPoint point : intersections) {
-			calcDistance = point.point.distanceSquared(head);
+			double calcDistance = point.point.distanceSquared(head);
 			if (calcDistance < minDistance) {
 				closest = point;
 				minDistance = calcDistance;
 			}
 		}
+		
 		return closest;
 	}
 

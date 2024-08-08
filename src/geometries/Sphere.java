@@ -63,6 +63,7 @@ public class Sphere extends RadialGeometry {
 		double inside = Math.sqrt(squaredRadius - perpendicular);
 		double t1 = alignZero(base - inside);
 		double t2 = alignZero(base + inside);
+		
 		// check if the intersection point is behind the camera or after the maximum
 		// distance
 		// t1 < t2 so if t2 <=0, also t1 <= 0. (and also in the other direction)

@@ -7,15 +7,8 @@ import static java.awt.Color.*;
 
 import org.junit.jupiter.api.Test;
 
-import geometries.Cylinder;
-import geometries.Plane;
-import geometries.Polygon;
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.PointLight;
-import lighting.SpotLight;
+import geometries.*;
+import lighting.*;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
@@ -24,13 +17,13 @@ import scene.Scene;
  * Tests for reflection and transparency functionality, test for partial shadows
  * (with transparency)
  * 
- * @author dzilb
+ * @author Dan Zilberstein &amp; Lior &amp; Asaf
  */
 public class ReflectionRefractionTests {
 	/** Scene for the tests */
 	private final Scene scene = new Scene("Test scene");
 	/** Camera builder for the tests with triangles */
-	private final Camera.Builder cameraBuilder = Camera.getBuilder().setDirection(Vector.Z, Vector.Y)
+	private final Camera.Builder cameraBuilder = Camera.getBuilder().setDirection(Vector.MINUS_Z, Vector.Y)
 			.setRayTracer(new SimpleRayTracer(scene));
 
 	/** Produce a picture of a sphere lighted by a spot light */
@@ -170,8 +163,12 @@ public class ReflectionRefractionTests {
 		scene.lights.add(new PointLight(new Color(450, 450, 0), new Point(-57, 10, 30)));
 
 		// Set the camera
-		cameraBuilder.setLocation(new Point(0, 0, 1300)).setVpDistance(1000).setVpSize(200, 200)
-				.setRayTracer(new SimpleRayTracer(scene));
-		cameraBuilder.setImageWriter(new ImageWriter("ourPictureTest", 800, 800)).build().renderImage().writeToImage();
+		cameraBuilder.setLocation(new Point(0, 0, 1300)) //
+				.setVpDistance(1000).setVpSize(200, 200) //
+				.setRayTracer(new SimpleRayTracer(scene)) //
+				.setImageWriter(new ImageWriter("ourPictureTest", 800, 800)) //
+				.build() //
+				.renderImage() //
+				.writeToImage();
 	}
 }
