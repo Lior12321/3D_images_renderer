@@ -31,7 +31,7 @@ public class Triangle extends Polygon {
 		var intersections = plane.findGeoIntersections(ray, maxDistance);
 		if (intersections == null)
 			return null;
-		
+
 		intersections = List.of(new GeoPoint(this, intersections.get(0).point));
 		// The intersection point is inside the triangle
 		Point rayP0 = ray.getHead();

@@ -42,6 +42,11 @@ public class Camera implements Cloneable {
 	/** The ray tracer for tracing rays in the scene. */
 	private RayTracerBase rayTracer;
 
+	/**
+	 * samples amount per pixel, the more samples the better resolution (but slower)
+	 */
+	private int numOfSamples = 1;
+
 	/** default constructor */
 	private Camera() {
 	}
@@ -133,8 +138,8 @@ public class Camera implements Cloneable {
 		Point pIJ = location.add(vTo.scale(distance));
 
 		// Calculate distance on x,y axes to the designated point
-		double yI = (((nY - 1) / 2.0) - i) * (height / nY); // -(i - (nY - 1) / 2)
-		double xJ = -(((nX - 1) / 2.0) - j) * (width / nX); // (j - (nX - 1) / 2)
+		double yI = (((nY - 1) / 2.0) - i) * (height / nY);
+		double xJ = -(((nX - 1) / 2.0) - j) * (width / nX);
 
 		// Avoiding creation of zero vector (which is unnecessary anyway)
 		if (!isZero(xJ))
@@ -156,25 +161,40 @@ public class Camera implements Cloneable {
 		int nX = imageWriter.getNx();
 		for (int i = 0; i < nY; ++i)
 			for (int j = 0; j < nX; j++)
-				castRay(nX, nY, j, i); // we dosen't sure if thats rights
+				castRay(nX, nY, j, i);
 		return this;
 		// throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Constructs a ray through the center of a given pixel, traces the ray to
+	 * constructs many samples for each pixel and calculate the average color for
+	 * each pixel. The more samples the better resolution. then trace the ray to
 	 * determine its color, and writes the color to the pixel using the image
 	 * writer.
-	 *
+	 * 
 	 * @param nX the number of columns in the resolution
 	 * @param nY the number of rows in the resolution
 	 * @param j  the column index of the pixel
 	 * @param i  the row index of the pixel
 	 */
 	private void castRay(int nX, int nY, int j, int i) {
-		Ray ray = constructRay(nX, nY, j, i);
-		Color color = rayTracer.traceRay(ray);
-		imageWriter.writePixel(j, i, color);
+		Color finalColor = Color.BLACK;
+
+		// Loop over the sub-pixels. we use rectangle target area for the sub-pixels.
+		for (int subI = 0; subI < numOfSamples; subI++) {
+			for (int subJ = 0; subJ < numOfSamples; subJ++) {
+				// Adjust the ray for the sub-pixel.
+				// each pixel is divided to numOfSamples^2 sub-pixels and we calculate the color
+				// for each sub-pixel.
+				Ray ray = constructRay(nX * numOfSamples, nY * numOfSamples, j * numOfSamples + subJ,
+						i * numOfSamples + subI);
+				finalColor = finalColor.add(rayTracer.traceRay(ray));
+			}
+		}
+
+		// calculate the average of the colors and write the final color to the pixel
+		finalColor = finalColor.reduce(numOfSamples * numOfSamples);
+		imageWriter.writePixel(j, i, finalColor);
 	}
 
 	/**
@@ -300,6 +320,17 @@ public class Camera implements Cloneable {
 		}
 
 		/**
+		 * sets the number of samples per pixel
+		 * 
+		 * @param numOfSamples the number of samples for each pixel
+		 * @return the Builder instance.
+		 */
+		public Builder setNumOfSamples(int numOfSamples) {
+			this.camera.numOfSamples = numOfSamples;
+			return this;
+		}
+
+		/**
 		 * Builds and returns the Camera object.
 		 * 
 		 * @return the built Camera object (clone).
@@ -331,6 +362,9 @@ public class Camera implements Cloneable {
 			if (!isZero(camera.vUp.dotProduct(camera.vTo)))
 				throw new MissingResourceException(missingRender, builder, "to and up directions are not orthogonal");
 			this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
+			// we must have at least 1 sample for pixel - the pixel itself
+			if (camera.numOfSamples < 1)
+				throw new IllegalArgumentException(wrongPlaneValues);
 
 			// Helper objects checks
 			if (camera.imageWriter == null)
@@ -345,9 +379,7 @@ public class Camera implements Cloneable {
 			} catch (CloneNotSupportedException e) {
 				throw new IllegalArgumentException("Can't create clone of camera");
 			}
-
 		}
-
 	}
 
 }

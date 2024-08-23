@@ -111,8 +111,7 @@ public class SimpleRayTracer extends RayTracerBase {
 				Double3 ktr = transparency(intersection, lightSource, l, n, nl);
 				if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
 					Color iL = lightSource.getIntensity(intersection.point).scale(ktr);
-					color = color.add(
-							iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
+					color = color.add(iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
 				}
 			}
 		}
@@ -236,7 +235,7 @@ public class SimpleRayTracer extends RayTracerBase {
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
 		if (intersections == null)
 			return true;
-		
+
 		for (GeoPoint point : intersections)
 			if (!point.geometry.getMaterial().kT.equals(Double3.ZERO))
 				return false;
@@ -263,7 +262,7 @@ public class SimpleRayTracer extends RayTracerBase {
 		Double3 ktr = Double3.ONE;
 		if (intersections == null)
 			return ktr;
-		
+
 		for (GeoPoint point : intersections)
 			ktr = ktr.product(point.geometry.getMaterial().kT);
 		return ktr;

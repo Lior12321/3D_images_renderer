@@ -35,7 +35,8 @@ public class Ray {
 	 * short distance in the normal's direction.
 	 * 
 	 * @param head      the original point
-	 * @param direction the direction vector of the ray - <b><i>must be normalized</i></b>
+	 * @param direction the direction vector of the ray - <b><i>must be
+	 *                  normalized</i></b>
 	 * @param normal    the normal along which to move the origin point
 	 */
 	public Ray(Point head, Vector direction, Vector normal) {
@@ -119,7 +120,7 @@ public class Ray {
 				minDistance = calcDistance;
 			}
 		}
-		
+
 		return closest;
 	}
 
