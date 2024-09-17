@@ -3,18 +3,12 @@ package unittests.renderer;
 import renderer.*;
 import scene.Scene;
 import static java.awt.Color.WHITE;
-import org.junit.jupiter.api.Test;
 
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.PointLight;
-import lighting.SpotLight;
-import primitives.Color;
-import primitives.Material;
-import primitives.Point;
-import primitives.Vector;
+import org.junit.jupiter.api.*;
+
+import geometries.*;
+import lighting.*;
+import primitives.*;
 
 /**
  * Tests for all of our pictures (for MP1 &amp; MP2)
@@ -30,6 +24,7 @@ class OurTests {
 
 	/** Produce a picture of a two larvas. */
 	@Test
+//	@Disabled
 	public void larvasPictureTest() {
 		scene.geometries.add(
 				// first larva body - five spheres
@@ -109,7 +104,7 @@ class OurTests {
 				.setVpDistance(1000).setVpSize(200, 200) //
 				.setRayTracer(new SimpleRayTracer(scene)) //
 				.setImageWriter(new ImageWriter("larvaPictureTest", 1200, 1200)) //
-				.setNumOfSamples(3) //
+				.setNumOfSamples(20) //
 				.build() //
 				.renderImage() //
 				.writeToImage();

@@ -114,6 +114,15 @@ public class Camera implements Cloneable {
 	public double getDistance() {
 		return distance;
 	}
+	
+	/**
+	 * Gets the image writer for the camera.
+	 * 
+	 * @return the image writer for the camera.
+	 */
+	public ImageWriter getImageWriter() {
+		return imageWriter;
+	}
 
 	/**
 	 * Returns a new instance of the Builder for creating a Camera object.
