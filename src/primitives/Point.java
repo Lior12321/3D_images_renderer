@@ -108,4 +108,14 @@ public class Point {
 		return Math.sqrt(this.distanceSquared(p));
 	}
 
+	/**
+	 * calculate the middle point between the old middle of the square and the side
+	 * point (for MP2)
+	 * 
+	 * @param p the side point
+	 * @return the middle point of the new square
+	 */
+	public Point newMiddle(Point p) {
+		return new Point((this.xyz.add(p.xyz)).scale(0.5));
+	}
 }

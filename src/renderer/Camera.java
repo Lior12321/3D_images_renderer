@@ -7,6 +7,11 @@ import primitives.Vector;
 
 import static primitives.Util.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 /**
@@ -159,6 +164,30 @@ public class Camera implements Cloneable {
 	}
 
 	/**
+	 * find the pixel in the view plane
+	 * 
+	 * @param nX number of columns
+	 * @param nY number of rows
+	 * @param j  current pixel x index
+	 * @param i  current pixel y index
+	 * @return resulting Ray
+	 */
+	public Point findPixel(int nX, int nY, int j, int i) {
+		Point pIJ = location.add(vTo.scale(distance));
+
+		// Calculate distance on x,y axes to the designated point
+		double yI = (((nY - 1) / 2.0) - i) * (height / nY);
+		double xJ = -(((nX - 1) / 2.0) - j) * (width / nX);
+
+		// Avoiding creation of zero vector (which is unnecessary anyway)
+		if (!isZero(xJ))
+			pIJ = pIJ.add(vRight.scale(xJ));
+		if (!isZero(yI))
+			pIJ = pIJ.add(vUp.scale(yI));
+		return pIJ;
+	}
+
+	/**
 	 * Renders an image by casting rays through every pixel and writing the
 	 * calculated color to each pixel using the image writer.
 	 * 
@@ -197,6 +226,8 @@ public class Camera implements Cloneable {
 				// for each sub-pixel.
 				Ray ray = constructRay(nX * numOfSamples, nY * numOfSamples, j * numOfSamples + subJ,
 						i * numOfSamples + subI);
+				
+				finalColor = castRaysRecursive(nX, nY, j, i, 1);
 				finalColor = finalColor.add(rayTracer.traceRay(ray));
 			}
 		}
@@ -238,6 +269,149 @@ public class Camera implements Cloneable {
 	 */
 	public void writeToImage() {
 		imageWriter.writeToImage();
+	}
+
+	/**
+	 * Method to calculate all the four corners of a pixel insert the points in the
+	 * order: (-x, +y), (+x, +y), (+x, -y), (-x, -y)
+	 * 
+	 * @param pIJ the center of the pixel
+	 * @param nX  the number of columns in the resolution
+	 * @param nY  the number of rows in the resolution
+	 * @param j   for casting ray in that column
+	 * @param i   for casting ray in that row
+	 * @return a list of the four corners of the pixel
+	 */
+	public List<Point> findCorners(Point pIJ, int nX, int nY, int j, int i) {
+		double halfPixelSize = (Math.min(height / nY, width / nX)) / 2;
+		// Point pIJ = findPixel(nX, nY, j, i);
+		List<Point> pointsList = new LinkedList<>();
+
+		// calculate the vectors for the corners
+		Vector posRight = vRight.scale(halfPixelSize);
+		Vector negRight = vRight.scale(-halfPixelSize);
+		Vector posUp = vUp.scale(halfPixelSize);
+		Vector negUp = vUp.scale(-halfPixelSize);
+
+		pointsList.add(pIJ.add(negRight).add(posUp)); // (-x, +y)
+		pointsList.add(pIJ.add(posRight).add(posUp)); // (+x, +y)
+		pointsList.add(pIJ.add(posRight).add(negUp)); // (+x, -y)
+		pointsList.add(pIJ.add(negRight).add(negUp)); // (-x, -y)
+		return pointsList;
+	}
+
+	/**
+	 * The starting method of the adaptive ss
+	 *
+	 * @param nX    the number of columns in the resolution
+	 * @param nY    the number of rows in the resolution
+	 * @param j     for casting ray in that column
+	 * @param i     for casting ray in that row
+	 * @param level the level of recursion
+	 * @return the color of the cell
+	 */
+	private Color castRaysRecursive(int nX, int nY, int j, int i, int level) {
+		Point pIJ = findPixel(nX, nY, j, i);
+		List<Point> pointList = findCorners(pIJ, nX, nY, j, i);
+
+		Map<Vector, Color> dictionary = new HashMap<>();
+		Point p0 = pointList.getFirst();
+		Point p1 = pointList.get(1);
+		Point p2 = pointList.get(2);
+		Point p3 = pointList.getLast();
+		Vector v0 = p0.subtract(location);
+		Color color0 = rayTracer.traceRay(new Ray(location, v0));
+		dictionary.put(v0, color0);
+		Vector v1 = p1.subtract(location);
+		Color color1 = rayTracer.traceRay(new Ray(location, v1));
+		dictionary.put(v1, color1);
+		Vector v2 = p2.subtract(location);
+		Color color2 = rayTracer.traceRay(new Ray(location, v2));
+		dictionary.put(v2, color2);
+		Vector v3 = p3.subtract(location);
+		Color color3 = rayTracer.traceRay(new Ray(location, v3));
+		dictionary.put(v3, color3);
+
+		if ((color0.equals(color1) && color1.equals(color2) && color3.equals(color0)) || level <= 0)
+			return color0.add(color1, color2, color3).reduce(4);
+		double pixelSide = Math.min(height / nY, width / nX) / 2;
+		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p0), level - 1, dictionary);
+		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p1), level - 1, dictionary);
+		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p2), level - 1, dictionary);
+		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p3), level - 1, dictionary);
+		Color sumAll = Color.BLACK;
+		for (Map.Entry<Vector, Color> vectorColorEntry : dictionary.entrySet())
+			sumAll = sumAll.add(vectorColorEntry.getValue());
+		return sumAll.reduce(dictionary.size());
+	}
+
+	
+	
+	public List<Point> findCorners (double side, Point center){
+		double centerToSide = side/2;
+		List<Point> points = new ArrayList<>();
+		
+		// calculate the vectors for the corners
+		Vector posRight = vRight.scale(centerToSide);
+		Vector negRight = vRight.scale(-centerToSide);
+		Vector posUp = vUp.scale(centerToSide);
+		Vector negUp = vUp.scale(-centerToSide);
+
+		
+		points.add(center.add(negRight).add(posUp)); // (-x, +y)
+		points.add(center.add(posRight).add(posUp)); // (+x, +y)
+		points.add(center.add(posRight).add(negUp)); // (+x, -y)
+		points.add(center.add(negRight).add(negUp)); // (-x, -y)		
+        return points;
+	}
+	/**
+	 * Recursive method for the adaptive ss
+	 *
+	 * @param side       the size of the new pixel side
+	 * @param center     the center of the new pixel
+	 * @param level      the level of the recursion
+	 * @param dictionary to avoid duplicate calculations
+	 * @return the dictionary
+	 */
+	private Map<Vector, Color> castRaysRecursive(double side, Point center, int level, Map<Vector, Color> dictionary) {
+		List<Point> pointList = findCorners(side, center);
+
+		Point p0 = pointList.getFirst();
+		Point p1 = pointList.get(1);
+		Point p2 = pointList.get(2);
+		Point p3 = pointList.getLast();
+
+		Vector v0 = p0.subtract(location);
+		Vector v1 = p1.subtract(location);
+		Vector v2 = p2.subtract(location);
+		Vector v3 = p3.subtract(location);
+		Color color0 = dictionary.get(v0), color1 = dictionary.get(v1), color2 = dictionary.get(v2),
+				color3 = dictionary.get(v3);
+
+		if (color0 == null) {
+			color0 = rayTracer.traceRay(new Ray(location, v0));
+			dictionary.put(v0, color0);
+		}
+		if (color1 == null) {
+			color1 = rayTracer.traceRay(new Ray(location, v1));
+			dictionary.put(v1, color1);
+		}
+		if (color2 == null) {
+			color2 = rayTracer.traceRay(new Ray(location, v2));
+			dictionary.put(v2, color2);
+		}
+		if (color3 == null) {
+			color3 = rayTracer.traceRay(new Ray(location, v3));
+			dictionary.put(v3, color3);
+		}
+		double pixelSide = side / 2;
+		if (!(color0.equals(color1) || !color1.equals(color2) || !color3.equals(color0)) && level > 0) {
+			dictionary = castRaysRecursive(pixelSide, center.newMiddle(p0), level - 1, dictionary);
+			dictionary = castRaysRecursive(pixelSide, center.newMiddle(p1), level - 1, dictionary);
+			dictionary = castRaysRecursive(pixelSide, center.newMiddle(p2), level - 1, dictionary);
+			dictionary = castRaysRecursive(pixelSide, center.newMiddle(p3), level - 1, dictionary);
+		}
+		return dictionary;
 	}
 
 	/**

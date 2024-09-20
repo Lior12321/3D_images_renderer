@@ -103,8 +103,8 @@ class OurTests {
 		cameraBuilder.setLocation(new Point(0, 0, 1300)) //
 				.setVpDistance(1000).setVpSize(200, 200) //
 				.setRayTracer(new SimpleRayTracer(scene)) //
-				.setImageWriter(new ImageWriter("larvaPictureTest", 1200, 1200)) //
-				.setNumOfSamples(20) //
+				.setImageWriter(new ImageWriter("larvaPictureTest", 800, 800)) //
+				.setNumOfSamples(1) //
 				.build() //
 				.renderImage() //
 				.writeToImage();
