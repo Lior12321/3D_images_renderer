@@ -1,13 +1,9 @@
 package renderer;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import static primitives.Util.*;
-
-import java.util.ArrayList;
+import static java.lang.Math.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +11,11 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 /**
- * Represents a camera with position and direction vectors.
+ * Represents a camera with position and direction vectors. The class
+ * responsible to send rays and create the picture, (using writePixel). <br>
+ * The class also have the improvements: anti-aliasing (SS) and adaptive super
+ * sampling (ASS). <br>
+ * The class contain inner static class {@link Builder} 
  * 
  * @author Lior &amp; Asaf
  */
@@ -47,10 +47,14 @@ public class Camera implements Cloneable {
 	/** The ray tracer for tracing rays in the scene. */
 	private RayTracerBase rayTracer;
 
-	/**
-	 * samples amount per pixel, the more samples the better resolution (but slower)
-	 */
+	/** samples amount per pixel, more samples - better resolution (but slower) */
 	private int numOfSamples = 1;
+
+	/** anti-aliasing flag. If the flag is on anti-aliasing is activated */
+	private boolean antiAliasingActive = false;
+
+	/** adaptive super sampling flag. If the flag is up ASS is activated */
+	private boolean adaptiveSuperSamplingActive = false;
 
 	/** default constructor */
 	private Camera() {
@@ -205,10 +209,14 @@ public class Camera implements Cloneable {
 	}
 
 	/**
-	 * constructs many samples for each pixel and calculate the average color for
-	 * each pixel. The more samples the better resolution. then trace the ray to
-	 * determine its color, and writes the color to the pixel using the image
-	 * writer.
+	 * Calculate the pixel color and create the pixel using imageWriter according to
+	 * the pixel color. there are three options to calculate the color:* <br>
+	 * If none of the flags up then send only one ray to the pixel and calculate the
+	 * color there (no improvements) <br>
+	 * If the anti aliasing flag up then send send numOfSamples rays to the pixel
+	 * and calculate the average color for the pixel. <br>
+	 * If the adaptive super sampling flag up then check in recursive way how many
+	 * places in the pixel needs to change
 	 * 
 	 * @param nX the number of columns in the resolution
 	 * @param nY the number of rows in the resolution
@@ -217,23 +225,38 @@ public class Camera implements Cloneable {
 	 */
 	private void castRay(int nX, int nY, int j, int i) {
 		Color finalColor = Color.BLACK;
-
-		// Loop over the sub-pixels. we use rectangle target area for the sub-pixels.
-		for (int subI = 0; subI < numOfSamples; subI++) {
-			for (int subJ = 0; subJ < numOfSamples; subJ++) {
-				// Adjust the ray for the sub-pixel.
-				// each pixel is divided to numOfSamples^2 sub-pixels and we calculate the color
-				// for each sub-pixel.
-				Ray ray = constructRay(nX * numOfSamples, nY * numOfSamples, j * numOfSamples + subJ,
-						i * numOfSamples + subI);
-				
-				finalColor = castRaysRecursive(nX, nY, j, i, 1);
-				finalColor = finalColor.add(rayTracer.traceRay(ray));
-			}
+		// if none of the improvements are active
+		// we can just cast the ray and write the color to the pixel.
+		if (!antiAliasingActive && !adaptiveSuperSamplingActive) {
+			Ray ray = constructRay(nX, nY, j, i);
+			finalColor = rayTracer.traceRay(ray);
+			imageWriter.writePixel(j, i, finalColor);
+			return;
 		}
-
-		// calculate the average of the colors and write the final color to the pixel
-		finalColor = finalColor.reduce(numOfSamples * numOfSamples);
+		// if anti aliasing flag is up then send send numOfSamples rays to the pixel
+		if (antiAliasingActive) {
+			// Loop over the sub-pixels. we use rectangle target area for the sub-pixels.
+			for (int subI = 0; subI < numOfSamples; subI++) {
+				for (int subJ = 0; subJ < numOfSamples; subJ++) {
+					// Adjust the ray for the sub-pixel.
+					// each pixel is divided to numOfSamples^2 sub-pixels and we calculate the color
+					// for each sub-pixel.
+					Ray ray = constructRay(nX * numOfSamples, nY * numOfSamples, j * numOfSamples + subJ,
+							i * numOfSamples + subI);
+					finalColor = finalColor.add(rayTracer.traceRay(ray));
+				}
+			}
+			finalColor = finalColor.reduce(numOfSamples * numOfSamples);
+		}
+		// if ASS flag is up active the recursive function to check if need to split the
+		// pixel to more sub-pixels
+		if (adaptiveSuperSamplingActive) {
+			// calculate the color for each sub-pixel
+			// the level calculate by the formula: numOfSamples = (2^level) -1.
+			// to get the level value we need to do samples -1 and then log2 on the result
+			finalColor = castRaysRecursive(nX, nY, j, i, (int) (log(numOfSamples - 1) / log(2)));
+		}
+		// write the final color to the pixel
 		imageWriter.writePixel(j, i, finalColor);
 	}
 
@@ -272,36 +295,32 @@ public class Camera implements Cloneable {
 	}
 
 	/**
-	 * Method to calculate all the four corners of a pixel insert the points in the
-	 * order: (-x, +y), (+x, +y), (+x, -y), (-x, -y)
+	 * Method to calculate all the four corners of a pixel. <br>
+	 * insert the points in the order: (-x, +y), (+x, +y), (+x, -y), (-x, -y)
 	 * 
-	 * @param pIJ the center of the pixel
-	 * @param nX  the number of columns in the resolution
-	 * @param nY  the number of rows in the resolution
-	 * @param j   for casting ray in that column
-	 * @param i   for casting ray in that row
+	 * @param side   the size of the pixel side
+	 * @param center the center of the pixel
 	 * @return a list of the four corners of the pixel
 	 */
-	public List<Point> findCorners(Point pIJ, int nX, int nY, int j, int i) {
-		double halfPixelSize = (Math.min(height / nY, width / nX)) / 2;
-		// Point pIJ = findPixel(nX, nY, j, i);
-		List<Point> pointsList = new LinkedList<>();
+	public List<Point> findCorners(double side, Point center) {
+		double centerToSide = side / 2;
+		List<Point> points = new LinkedList<>();
 
 		// calculate the vectors for the corners
-		Vector posRight = vRight.scale(halfPixelSize);
-		Vector negRight = vRight.scale(-halfPixelSize);
-		Vector posUp = vUp.scale(halfPixelSize);
-		Vector negUp = vUp.scale(-halfPixelSize);
+		Vector posRight = vRight.scale(centerToSide);
+		Vector negRight = vRight.scale(-centerToSide);
+		Vector posUp = vUp.scale(centerToSide);
+		Vector negUp = vUp.scale(-centerToSide);
 
-		pointsList.add(pIJ.add(negRight).add(posUp)); // (-x, +y)
-		pointsList.add(pIJ.add(posRight).add(posUp)); // (+x, +y)
-		pointsList.add(pIJ.add(posRight).add(negUp)); // (+x, -y)
-		pointsList.add(pIJ.add(negRight).add(negUp)); // (-x, -y)
-		return pointsList;
+		points.add(center.add(negRight).add(posUp)); // (-x, +y)
+		points.add(center.add(posRight).add(posUp)); // (+x, +y)
+		points.add(center.add(posRight).add(negUp)); // (+x, -y)
+		points.add(center.add(negRight).add(negUp)); // (-x, -y)
+		return points;
 	}
 
 	/**
-	 * The starting method of the adaptive ss
+	 * The starting method of the ASS
 	 *
 	 * @param nX    the number of columns in the resolution
 	 * @param nY    the number of rows in the resolution
@@ -312,7 +331,8 @@ public class Camera implements Cloneable {
 	 */
 	private Color castRaysRecursive(int nX, int nY, int j, int i, int level) {
 		Point pIJ = findPixel(nX, nY, j, i);
-		List<Point> pointList = findCorners(pIJ, nX, nY, j, i);
+		double pixelSide = min(height / nY, width / nX) / 2;
+		List<Point> pointList = findCorners(pixelSide, pIJ);
 
 		Map<Vector, Color> dictionary = new HashMap<>();
 		Point p0 = pointList.getFirst();
@@ -334,7 +354,6 @@ public class Camera implements Cloneable {
 
 		if ((color0.equals(color1) && color1.equals(color2) && color3.equals(color0)) || level <= 0)
 			return color0.add(color1, color2, color3).reduce(4);
-		double pixelSide = Math.min(height / nY, width / nX) / 2;
 		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p0), level - 1, dictionary);
 		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p1), level - 1, dictionary);
 		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p2), level - 1, dictionary);
@@ -345,27 +364,8 @@ public class Camera implements Cloneable {
 		return sumAll.reduce(dictionary.size());
 	}
 
-	
-	
-	public List<Point> findCorners (double side, Point center){
-		double centerToSide = side/2;
-		List<Point> points = new ArrayList<>();
-		
-		// calculate the vectors for the corners
-		Vector posRight = vRight.scale(centerToSide);
-		Vector negRight = vRight.scale(-centerToSide);
-		Vector posUp = vUp.scale(centerToSide);
-		Vector negUp = vUp.scale(-centerToSide);
-
-		
-		points.add(center.add(negRight).add(posUp)); // (-x, +y)
-		points.add(center.add(posRight).add(posUp)); // (+x, +y)
-		points.add(center.add(posRight).add(negUp)); // (+x, -y)
-		points.add(center.add(negRight).add(negUp)); // (-x, -y)		
-        return points;
-	}
 	/**
-	 * Recursive method for the adaptive ss
+	 * Recursive method for the ASS
 	 *
 	 * @param side       the size of the new pixel side
 	 * @param center     the center of the new pixel
@@ -514,6 +514,28 @@ public class Camera implements Cloneable {
 		}
 
 		/**
+		 * sets the anti-aliasing flag
+		 * 
+		 * @param antiAliasingActive the anti-aliasing flag
+		 * @return the Builder instance.
+		 */
+		public Builder setAntiAliasingActive(boolean antiAliasingActive) {
+			this.camera.antiAliasingActive = antiAliasingActive;
+			return this;
+		}
+
+		/**
+		 * sets the adaptive super sampling flag
+		 * 
+		 * @param adaptiveSuperSamplingActive the adaptive super sampling flag
+		 * @return the Builder instance.
+		 */
+		public Builder setAdaptiveSuperSamplingActive(boolean adaptiveSuperSamplingActive) {
+			this.camera.adaptiveSuperSamplingActive = adaptiveSuperSamplingActive;
+			return this;
+		}
+
+		/**
 		 * Builds and returns the Camera object.
 		 * 
 		 * @return the built Camera object (clone).
@@ -545,9 +567,13 @@ public class Camera implements Cloneable {
 			if (!isZero(camera.vUp.dotProduct(camera.vTo)))
 				throw new MissingResourceException(missingRender, builder, "to and up directions are not orthogonal");
 			this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
+
 			// we must have at least 1 sample for pixel - the pixel itself
 			if (camera.numOfSamples < 1)
 				throw new IllegalArgumentException(wrongPlaneValues);
+			// if we have both anti-aliasing and adaptive super sampling
+			if (camera.antiAliasingActive && camera.adaptiveSuperSamplingActive)
+				throw new IllegalArgumentException("Can't have both anti-aliasing and adaptive super sampling");
 
 			// Helper objects checks
 			if (camera.imageWriter == null)
