@@ -15,7 +15,7 @@ import java.util.MissingResourceException;
  * responsible to send rays and create the picture, (using writePixel). <br>
  * The class also have the improvements: anti-aliasing (SS) and adaptive super
  * sampling (ASS). <br>
- * The class contain inner static class {@link Builder} 
+ * The class contain inner static class {@link Builder}
  * 
  * @author Lior &amp; Asaf
  */
@@ -55,6 +55,15 @@ public class Camera implements Cloneable {
 
 	/** adaptive super sampling flag. If the flag is up ASS is activated */
 	private boolean adaptiveSuperSamplingActive = false;
+
+	/** threads counter */
+	private int threadsCount = 0; // -2 auto, -1 range/stream, 0 no threads, 1+ number of threads
+
+	/** Spare threads if trying to use all the cores */
+	private final int SPARE_THREADS = 2;
+
+	/** printing progress percentage interval */
+	private double printInterval = 0;
 
 	/** default constructor */
 	private Camera() {
@@ -201,6 +210,7 @@ public class Camera implements Cloneable {
 	public Camera renderImage() {
 		int nY = imageWriter.getNy();
 		int nX = imageWriter.getNx();
+		Pixel.initialize(nY, nX, printInterval);
 		for (int i = 0; i < nY; ++i)
 			for (int j = 0; j < nX; j++)
 				castRay(nX, nY, j, i);
@@ -503,7 +513,7 @@ public class Camera implements Cloneable {
 		}
 
 		/**
-		 * sets the number of samples per pixel
+		 * Sets the number of samples per pixel
 		 * 
 		 * @param numOfSamples the number of samples for each pixel
 		 * @return the Builder instance.
@@ -514,7 +524,7 @@ public class Camera implements Cloneable {
 		}
 
 		/**
-		 * sets the anti-aliasing flag
+		 * Sets the anti-aliasing flag
 		 * 
 		 * @param antiAliasingActive the anti-aliasing flag
 		 * @return the Builder instance.
@@ -525,13 +535,41 @@ public class Camera implements Cloneable {
 		}
 
 		/**
-		 * sets the adaptive super sampling flag
+		 * Sets the adaptive super sampling flag
 		 * 
 		 * @param adaptiveSuperSamplingActive the adaptive super sampling flag
 		 * @return the Builder instance.
 		 */
 		public Builder setAdaptiveSuperSamplingActive(boolean adaptiveSuperSamplingActive) {
 			this.camera.adaptiveSuperSamplingActive = adaptiveSuperSamplingActive;
+			return this;
+		}
+
+		/**
+         * sets the multi-threading
+         *
+         * @param threads the number of threads the user inputed
+         * @return the Builder instance.
+         */
+		public Builder setMultithreading(int threads) {
+			if (threads < -2)
+				throw new IllegalArgumentException("Multithreading must be -2 or higher");
+			if (threads >= -1)
+				camera.threadsCount = threads;
+			else { // == -2
+				int cores = Runtime.getRuntime().availableProcessors() - camera.SPARE_THREADS;
+				camera.threadsCount = cores <= 2 ? 1 : cores;
+			}
+			return this;
+		}
+
+		/**
+		 * Sets the printing progress percentage interval
+		 * @param interval the interval for printing the progress percentage
+		 * @return the Builder instance.
+		 */
+		public Builder setDebugPrint(double interval) {
+			camera.printInterval = interval;
 			return this;
 		}
 
@@ -580,7 +618,8 @@ public class Camera implements Cloneable {
 				throw new MissingResourceException(missingRender, builder, "imageWriter not defined");
 			if (camera.rayTracer == null)
 				throw new MissingResourceException(missingRender, builder, "rayTracer not defined");
-
+			// Exceptions for threads already thrown in the set function (there is default value)
+			
 			// we don't really need to do try because we checks it all, but the compiler
 			// doesn't give us to do it without try-catch form
 			try {

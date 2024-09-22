@@ -1,5 +1,8 @@
 package renderer;
 
+/**
+ * 
+ */
 record Pixel(int row, int col) {
 
 	/** The row amount in a image */
@@ -28,12 +31,12 @@ record Pixel(int row, int col) {
 	private static Object mutexPixels = new Object();
 
 	/**
-     * function that initializes the values
-     *
-     * @param maxRows  the number of rows in the picture
-     * @param maxCols  the number of columns in the picture
-     * @param interval the interval for printing
-     */
+	 * function that initializes the values
+	 *
+	 * @param maxRows  the number of rows in the picture
+	 * @param maxCols  the number of columns in the picture
+	 * @param interval the interval for printing
+	 */
 	static void initialize(int maxRows, int maxCols, double interval) {
 		Pixel.maxRows = maxRows;
 		Pixel.maxCols = maxCols;
@@ -44,8 +47,9 @@ record Pixel(int row, int col) {
 	}
 
 	/**
+	 * Create the next pixel to be colored
 	 * 
-	 * @return
+	 * @return the next pixel (null if there isn't)
 	 */
 	static Pixel nextPixel() {
 		synchronized (mutexNext) {
@@ -62,6 +66,10 @@ record Pixel(int row, int col) {
 		return null;
 	}
 
+	/**
+	 * Prints the percent if the pixel finished and continue to work if the job is
+	 * not done yet
+	 */
 	static void pixelDone() {
 		boolean flag = false;
 		int percentage = 0;
