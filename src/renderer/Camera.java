@@ -14,7 +14,7 @@ import java.util.MissingResourceException;
  * Represents a camera with position and direction vectors. The class
  * responsible to send rays and create the picture, (using writePixel). <br>
  * The class also have the improvements: anti-aliasing (SS) and adaptive super
- * sampling (ASS). <br>
+ * sampling (ASS) and using threads <br>
  * The class contain inner static class {@link Builder}
  * 
  * @author Lior &amp; Asaf
@@ -187,11 +187,9 @@ public class Camera implements Cloneable {
 	 */
 	public Point findPixel(int nX, int nY, int j, int i) {
 		Point pIJ = location.add(vTo.scale(distance));
-
 		// Calculate distance on x,y axes to the designated point
 		double yI = (((nY - 1) / 2.0) - i) * (height / nY);
 		double xJ = -(((nX - 1) / 2.0) - j) * (width / nX);
-
 		// Avoiding creation of zero vector (which is unnecessary anyway)
 		if (!isZero(xJ))
 			pIJ = pIJ.add(vRight.scale(xJ));
@@ -202,20 +200,49 @@ public class Camera implements Cloneable {
 
 	/**
 	 * Renders an image by casting rays through every pixel and writing the
-	 * calculated color to each pixel using the image writer.
+	 * calculated color to each pixel using the image writer. The rendering is
+	 * performed based on the number of threads specified by the user:
 	 * 
-	 * @return the camera instance (this) to allow method chaining
-	 * @throws MissingResourceException if the image writer or ray tracer is not set
+	 * If the number of threads is 0, the method will run in a single thread. <br>
+	 * If the number of threads is -1, the method will run in parallel using the
+	 * range function. <br>
+	 * If the number of threads is -2, the method will run in parallel using all
+	 * available processors.<br>
+	 * 
+	 * @return the camera instance (this) to allow method chaining.
+	 * @throws IllegalStateException if the image writer or ray tracer is not set.
 	 */
 	public Camera renderImage() {
 		int nY = imageWriter.getNy();
 		int nX = imageWriter.getNx();
 		Pixel.initialize(nY, nX, printInterval);
-		for (int i = 0; i < nY; ++i)
-			for (int j = 0; j < nX; j++)
-				castRay(nX, nY, j, i);
+
+		// if we don't have threads at all - continue normally
+		if (threadsCount == 0) {
+			for (int i = 0; i < nY; ++i)
+				for (int j = 0; j < nX; j++)
+					castRay(nX, nY, j, i);
+			return this;
+		}
+		// if we have threads then activate them
+		List<Thread> threads = new LinkedList<>();
+		int availableProcessors = threadsCount == -1 ? Runtime.getRuntime().availableProcessors() : threadsCount;
+
+		for (int t = 0; t < availableProcessors; t++) {
+			threads.add(new Thread(() -> {
+				Pixel pixel;
+				while ((pixel = Pixel.nextPixel()) != null)
+					castRay(nX, nY, pixel.col(), pixel.row());
+			}));
+		}
+		for (var thread : threads)
+			thread.start();
+		try {
+			for (var thread : threads)
+				thread.join();
+		} catch (InterruptedException ignore) {
+		}
 		return this;
-		// throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -268,6 +295,7 @@ public class Camera implements Cloneable {
 		}
 		// write the final color to the pixel
 		imageWriter.writePixel(j, i, finalColor);
+		Pixel.pixelDone();
 	}
 
 	/**
@@ -343,7 +371,8 @@ public class Camera implements Cloneable {
 		Point pIJ = findPixel(nX, nY, j, i);
 		double pixelSide = min(height / nY, width / nX) / 2;
 		List<Point> pointList = findCorners(pixelSide, pIJ);
-
+		// go over the corners and create vectors to every side and calculate the color
+		// at every side in the rectangle
 		Map<Vector, Color> dictionary = new HashMap<>();
 		Point p0 = pointList.getFirst();
 		Point p1 = pointList.get(1);
@@ -361,9 +390,11 @@ public class Camera implements Cloneable {
 		Vector v3 = p3.subtract(location);
 		Color color3 = rayTracer.traceRay(new Ray(location, v3));
 		dictionary.put(v3, color3);
-
+		// if all the colors are the same or we get to the end of the recursion - return
+		// the sum of all of the colors
 		if ((color0.equals(color1) && color1.equals(color2) && color3.equals(color0)) || level <= 0)
 			return color0.add(color1, color2, color3).reduce(4);
+		// otherwise send every side point of the rectangle to the recursive method
 		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p0), level - 1, dictionary);
 		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p1), level - 1, dictionary);
 		dictionary = castRaysRecursive(pixelSide, pIJ.newMiddle(p2), level - 1, dictionary);
@@ -375,7 +406,8 @@ public class Camera implements Cloneable {
 	}
 
 	/**
-	 * Recursive method for the ASS
+	 * Recursive method for the ASS This method is very similar to the previous one,
+	 * except that she get the dictionary as a parameter (and return it at the end)
 	 *
 	 * @param side       the size of the new pixel side
 	 * @param center     the center of the new pixel
@@ -546,11 +578,11 @@ public class Camera implements Cloneable {
 		}
 
 		/**
-         * sets the multi-threading
-         *
-         * @param threads the number of threads the user inputed
-         * @return the Builder instance.
-         */
+		 * sets the multi-threading
+		 *
+		 * @param threads the number of threads the user inputed
+		 * @return the Builder instance.
+		 */
 		public Builder setMultithreading(int threads) {
 			if (threads < -2)
 				throw new IllegalArgumentException("Multithreading must be -2 or higher");
@@ -565,6 +597,7 @@ public class Camera implements Cloneable {
 
 		/**
 		 * Sets the printing progress percentage interval
+		 * 
 		 * @param interval the interval for printing the progress percentage
 		 * @return the Builder instance.
 		 */
@@ -618,8 +651,9 @@ public class Camera implements Cloneable {
 				throw new MissingResourceException(missingRender, builder, "imageWriter not defined");
 			if (camera.rayTracer == null)
 				throw new MissingResourceException(missingRender, builder, "rayTracer not defined");
-			// Exceptions for threads already thrown in the set function (there is default value)
-			
+			// Exceptions for threads already thrown in the set function (there is default
+			// value)
+
 			// we don't really need to do try because we checks it all, but the compiler
 			// doesn't give us to do it without try-catch form
 			try {

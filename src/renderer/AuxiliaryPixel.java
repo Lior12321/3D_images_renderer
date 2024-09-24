@@ -1,7 +1,13 @@
 package renderer;
 
 /**
+ * This is record class (immutable class) that get a pixel and calculate the
+ * next pixel to send to threads. it also responsible to print in live the
+ * progress of the program.
  * 
+ * @param row the row of the pixel
+ * @param col the column of the pixel
+ * @author Dan Zilberstein
  */
 record Pixel(int row, int col) {
 
@@ -31,7 +37,7 @@ record Pixel(int row, int col) {
 	private static Object mutexPixels = new Object();
 
 	/**
-	 * function that initializes the values
+	 * function to initializes the values
 	 *
 	 * @param maxRows  the number of rows in the picture
 	 * @param maxCols  the number of columns in the picture
@@ -86,42 +92,4 @@ record Pixel(int row, int col) {
 		if (flag)
 			System.out.printf(PRINT_FORMAT, percentage / 10d);
 	}
-
-	/**
-	 * Internal function for thread-safe manipulating of main follow up Pixel object
-	 * - this function is critical section for all the threads, and main Pixel
-	 * object data is the shared data of this critical section.<br/>
-	 * The function provides next pixel number each call.
-	 * 
-	 * @param target target secondary Pixel object to copy the row/column of the
-	 *               next pixel
-	 * @return the progress percentage for follow up: if it is 0 - nothing to print,
-	 *         if it is -1 - the task is finished, any other value - the progress
-	 *         percentage (only when it changes)
-	 */
-//	private synchronized int nextP(Pixel target) {
-//		++col;
-//		++counter;
-//		if (col < maxCols) {
-//			target.row = this.row;
-//			target.col = this.col;
-//			if (print && counter == nextCounter) {
-//				++percents;
-//				nextCounter = pixels * (percents + 1) / 100;
-//				return percents;
-//			}
-//			return 0;
-//		}
-//		++row;
-//		if (row < maxRows) {
-//			col = 0;
-//			if (print && counter == nextCounter) {
-//				++percents;
-//				nextCounter = pixels * (percents + 1) / 100;
-//				return percents;
-//			}
-//			return 0;
-//		}
-//		return -1;
-//	}
 }
