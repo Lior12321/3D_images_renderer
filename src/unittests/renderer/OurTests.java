@@ -104,11 +104,11 @@ class OurTests {
 				.setVpDistance(1000).setVpSize(200, 200) //
 				.setRayTracer(new SimpleRayTracer(scene)) //
 				.setImageWriter(new ImageWriter("larvaPictureTest", 800, 800)) //
-				.setNumOfSamples(17) //
+				.setNumOfSamples(33) //
 				.setAntiAliasingActive(true) //
 				.setAdaptiveSuperSamplingActive(false) //
-				.setMultithreading(3) //
-				.setDebugPrint(1) // progress update interval in 0.1%
+				.setMultithreading(0) //
+				.setDebugPrint(1) // progress update interval in 1%
 				.build() //
 				.renderImage() //
 				.writeToImage();
